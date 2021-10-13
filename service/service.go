@@ -34,6 +34,11 @@ func GetAllEmployees(c *gin.Context) {
 
 }
 
+func GetEmployeeById(c *gin.Context) {
+	id := c.Params.ByName("id")
+	log.Println(id)
+}
+
 // func GetAllEmployees(w http.ResponseWriter, r *http.Request) {
 // 	rows, err := config.Db.Query("SELECT * FROM employee")
 // 	if err != nil {
