@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"emp-simple/service"
+	"git-clones/go-api-simple/service"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

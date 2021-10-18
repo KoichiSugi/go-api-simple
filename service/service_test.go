@@ -2,8 +2,8 @@ package service_test
 
 import (
 	"database/sql"
-	"emp-simple/data"
-	"emp-simple/service"
+	"git-clones/go-api-simple/data"
+	"git-clones/go-api-simple/service"
 	"log"
 	"testing"
 	"time"
@@ -45,7 +45,7 @@ func NewMock() (*sql.DB, sqlmock.Sqlmock) {
 }
 
 func TestExecuteQueryWithId(t *testing.T) {
-	db, mock := NewMock()
+	//db, mock := NewMock()
 	query := "SELECT * FROM employee"
 	rows := sqlmock.NewRows([]string{"Id", "firstname", "middlename", "lastname", "gender", "salary", "dob", "email", "phone", "state", "postcode", "addressline1", "addressline2", "tfn", "superbalance"}).
 		AddRow(u.Id, u.FirstName, u.MiddleName, u.LastName, u.Gender, u.Salary, "1994-01-01", u.Email, u.Phone, u.State, u.Postcode, u.AddressLine1, u.AddressLine2, u.TFN, u.SuperBalance)

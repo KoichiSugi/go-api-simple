@@ -2,9 +2,9 @@ package service
 
 import (
 	"database/sql"
-	"emp-simple/config"
-	"emp-simple/data"
-	"emp-simple/errorhandling"
+	"git-clones/go-api-simple/config"
+	"git-clones/go-api-simple/data"
+	"git-clones/go-api-simple/errorhandling"
 	"log"
 	"net/http"
 	"time"
