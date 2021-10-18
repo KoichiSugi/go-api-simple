@@ -24,7 +24,7 @@ var u = &data.Employee{
 	LastName:     "Fukada",
 	Gender:       "Female",
 	Salary:       9999.99,
-	DOB:          data.CustomDOB(mockDOB),
+	DOB:          mockDOB,
 	Email:        "momo@gmail.com",
 	Phone:        "03999999",
 	State:        "VIC",
@@ -45,7 +45,7 @@ func NewMock() (*sql.DB, sqlmock.Sqlmock) {
 }
 
 func TestExecuteQueryWithId(t *testing.T) {
-	//db, mock := NewMock()
+	_, mock := NewMock()
 	query := "SELECT * FROM employee"
 	rows := sqlmock.NewRows([]string{"Id", "firstname", "middlename", "lastname", "gender", "salary", "dob", "email", "phone", "state", "postcode", "addressline1", "addressline2", "tfn", "superbalance"}).
 		AddRow(u.Id, u.FirstName, u.MiddleName, u.LastName, u.Gender, u.Salary, "1994-01-01", u.Email, u.Phone, u.State, u.Postcode, u.AddressLine1, u.AddressLine2, u.TFN, u.SuperBalance)

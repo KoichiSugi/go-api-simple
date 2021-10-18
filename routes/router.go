@@ -23,6 +23,7 @@ func CreateRouter() *gin.Engine {
 		group1.GET("/", service.GetAllEmployees)
 		group1.GET("/:id", service.GetEmployeeById)
 		group1.POST("/", service.CreateEmployee)
+		group1.DELETE("/:id", service.DeleteEmployee)
 	}
 	return router
 }

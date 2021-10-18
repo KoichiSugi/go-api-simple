@@ -1,8 +1,8 @@
 package main
 
 import (
-	"emp-simple/config"
-	"emp-simple/routes"
+	"git-clones/go-api-simple/config"
+	"git-clones/go-api-simple/routes"
 )
 
 func main() {
