@@ -18,7 +18,7 @@ CREATE TABLE employee (
 )
 ;
 
-select * from employee
+select * from employee;
 
 
 

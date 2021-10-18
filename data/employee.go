@@ -15,7 +15,7 @@ type Employee struct {
 	LastName     string    `json:"lastname"`
 	Gender       string    `json:"gender"`
 	Salary       float64   `json:"salary"`
-	DOB          CustomDOB `json:"dob"`
+	DOB          CustomDOB `json:"dob" `
 	Email        string    `json:"email"`
 	Phone        string    `json:"phone"`
 	State        string    `json:"state"`
