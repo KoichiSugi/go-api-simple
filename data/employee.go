@@ -10,20 +10,20 @@ type CustomDOB time.Time
 
 type Employee struct {
 	Id           string    `json:"id"`
-	FirstName    string    `json:"firstname"`
-	MiddleName   string    `json:"middlename"`
-	LastName     string    `json:"lastname"`
-	Gender       string    `json:"gender"`
-	Salary       float64   `json:"salary"`
-	DOB          CustomDOB `json:"dob" `
-	Email        string    `json:"email"`
-	Phone        string    `json:"phone"`
-	State        string    `json:"state"`
-	Postcode     int       `json:"postcode"`
-	AddressLine1 string    `json:"addressline1"`
-	AddressLine2 string    `json:"addressline2"`
-	TFN          string    `json:"tfn"`
-	SuperBalance float64   `json:"superbalance"`
+	FirstName    string    `json:"firstname" validate:"required"`
+	MiddleName   string    `json:"middlename" validate:"required"`
+	LastName     string    `json:"lastname" validate:"required"`
+	Gender       string    `json:"gender" validate:"required"`
+	Salary       float64   `json:"salary" validate:"required"`
+	DOB          CustomDOB `json:"dob" validate:"required"`
+	Email        string    `json:"email" validate:"required,email"`
+	Phone        string    `json:"phone" validate:"required"`
+	State        string    `json:"state" validate:"required"`
+	Postcode     int       `json:"postcode" validate:"required"`
+	AddressLine1 string    `json:"addressline1" validate:"required"`
+	AddressLine2 string    `json:"addressline2" validate:"required"`
+	TFN          string    `json:"tfn" validate:"required"`
+	SuperBalance float64   `json:"superbalance" validate:"required"`
 }
 
 // Implement Marshaler and Unmarshaler interface
