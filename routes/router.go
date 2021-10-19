@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"git-clones/go-api-simple/service"
+	"git-clones/go-api-simple/mysql"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -17,13 +17,30 @@ func (fn rootHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateRouter() *gin.Engine {
+	var msr mysql.MysqlRepo
 	router := gin.Default()
 	group1 := router.Group("/employee")
 	{
-		group1.GET("/", service.GetAllEmployees)
-		group1.GET("/:id", service.GetEmployeeById)
-		group1.POST("/", service.CreateEmployee)
-		group1.DELETE("/:id", service.DeleteEmployee)
+		group1.GET("/", func(ctx *gin.Context) {
+			// mysql.Handler(ctx, msr)
+			msr.GetAllEmployees(ctx)
+		})
+		group1.GET("/:id", func(c *gin.Context) {
+			msr.GetEmployeeById(c)
+		})
+		group1.POST("/", func(c *gin.Context) {
+			msr.CreateEmployee(c)
+		})
+		group1.DELETE("/:id", func(c *gin.Context) {
+			msr.DeleteEmployee(c)
+		})
+		group1.PUT("/:id", func(c *gin.Context) {
+			msr.UpdateEmployee(c)
+		})
+		//group1.GET("/:id", service.GetEmployeeById)
+		//group1.POST("/", service.CreateEmployee)
+		//group1.DELETE("/:id", service.DeleteEmployee)
+
 	}
 	return router
 }
