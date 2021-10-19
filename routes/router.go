@@ -22,11 +22,10 @@ func CreateRouter() *gin.Engine {
 	group1 := router.Group("/employee")
 	{
 		group1.GET("/", func(ctx *gin.Context) {
-			// mysql.Handler(ctx, msr)
 			msr.GetAllEmployees(ctx)
 		})
 		group1.GET("/:id", func(c *gin.Context) {
-			msr.GetEmployeeById(c)
+			msr.GetEmployeeByIdHandler(c)
 		})
 		group1.POST("/", func(c *gin.Context) {
 			msr.CreateEmployee(c)

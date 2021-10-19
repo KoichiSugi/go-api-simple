@@ -20,14 +20,9 @@ type MysqlRepo struct {
 	db *sql.DB
 }
 
-// func Handler(c *gin.Context, repo repository.Repository) {
-// 	//check which method to be called
-// 	v, err := repo.GetAllEmployees(c)
-// 	if err.Message != "" {
-// 		c.JSON(http.StatusBadRequest, err.Message)
-// 	}
-// 	log.Println(v)
-// }
+func (r *MysqlRepo) Close() {
+	r.db.Close()
+}
 
 func executeQuery(q string) (*sql.Rows, error) {
 	rows, err := config.Db.Query(q)
@@ -37,10 +32,6 @@ func executeQuery(q string) (*sql.Rows, error) {
 		return nil, errorhandling.WrapError("mysql.executeQuery function", errorhandling.BadRequest, "something wrong with query")
 	}
 	return rows, nil
-}
-func executeQueryWithId(q string, id string) *sql.Row {
-	rows := config.Db.QueryRow(q, id)
-	return rows
 }
 
 func (r *MysqlRepo) GetAllEmployees(c *gin.Context) ([]data.Employee, error) {
@@ -66,27 +57,33 @@ func (r *MysqlRepo) GetAllEmployees(c *gin.Context) ([]data.Employee, error) {
 	return emps, nil
 }
 
-func (r *MysqlRepo) GetEmployeeById(c *gin.Context) (data.Employee, error) {
-	var emp data.Employee
+func (r *MysqlRepo) GetEmployeeByIdHandler(c *gin.Context) error {
 	id := c.Params.ByName("id")
-	query := "SELECT * FROM employee WHERE id = ?"
-	row := executeQueryWithId(query, id)
+	emp, err := getEmployeeById(id)
+	if err != nil { //if not found
+		c.JSON(404, errorhandling.WrapError("mysql.GetEmployeeByIdHandler sql.ErrNoRows", errorhandling.NotFound, err.Error()))
+		return err
+	}
+	//if found
+	c.JSON(http.StatusOK, emp)
+	return nil
+}
+
+func getEmployeeById(id string) (data.Employee, error) {
+	var emp data.Employee
+	q := "SELECT * FROM employee WHERE id = ?"
+	row := config.Db.QueryRow(q, id)
 	if err := row.Scan(&emp.Id, &emp.FirstName, &emp.MiddleName,
 		&emp.LastName, &emp.Gender, &emp.Salary, &emp.DOB, &emp.Email,
 		&emp.Phone, &emp.State, &emp.Postcode, &emp.AddressLine1, &emp.AddressLine2,
 		&emp.TFN, &emp.SuperBalance); err != nil {
 		if err == sql.ErrNoRows {
-			//c.JSON(404, &errorhandling.RequestError{Context: "mysql.GetAllEmployeeById sql.ErrNoRows ", Code: errorhandling.NotFound, Message: err.Error()})
-			c.JSON(404, errorhandling.WrapError("mysql.GetAllEmployeeById sql.ErrNoRows", errorhandling.NotFound, err.Error()))
 			return data.Employee{}, err
 		}
-		c.JSON(500, errorhandling.WrapError("mysql.GetAllEmployeeById row.Scan ", errorhandling.Internal, err.Error()))
 		return data.Employee{}, err
 	}
-	c.JSON(http.StatusOK, emp)
 	return emp, nil
 }
-
 func (r *MysqlRepo) CreateEmployee(c *gin.Context) error {
 	var emp data.Employee
 	v := validator.New()
@@ -113,53 +110,28 @@ func (r *MysqlRepo) CreateEmployee(c *gin.Context) error {
 }
 
 func (r *MysqlRepo) DeleteEmployee(c *gin.Context) error {
-	var emp data.Employee
 	id := c.Params.ByName("id")
-	query := "SELECT * FROM employee WHERE id = ?"
-	var row = executeQueryWithId(query, id)
-	if err := row.Scan(&emp.Id, &emp.FirstName, &emp.MiddleName,
-		&emp.LastName, &emp.Gender, &emp.Salary, &emp.DOB, &emp.Email,
-		&emp.Phone, &emp.State, &emp.Postcode, &emp.AddressLine1, &emp.AddressLine2,
-		&emp.TFN, &emp.SuperBalance); err != nil {
-		if err == sql.ErrNoRows {
-			//c.JSON(404, &errorhandling.RequestError{Context: "mysql.GetAllEmployeeById sql.ErrNoRows ", Code: errorhandling.NotFound, Message: err.Error()})
-			c.JSON(404, errorhandling.WrapError("mysql.GetAllEmployeeById sql.ErrNoRows", errorhandling.NotFound, err.Error()))
-			return err
-		}
-		c.JSON(500, errorhandling.WrapError("mysql.GetAllEmployeeById row.Scan ", errorhandling.Internal, err.Error()))
+	//find if id exists
+	_, err := getEmployeeById(id)
+	if err != nil { //if not exists return
+		c.JSON(404, errorhandling.WrapError("mysql.GetAllEmployeeById sql.ErrNoRows", errorhandling.NotFound, err.Error()))
 		return err
 	}
 	//delete emp
-	query = "DELETE FROM employee WHERE id = ?"
-	_, err := config.Db.Exec(query, id)
+	query := "DELETE FROM employee WHERE id = ?"
+	_, err = config.Db.Exec(query, id)
 	if err != nil {
 		c.JSON(500, errorhandling.WrapError("mysql.GetAllEmployeeById Db.exec", errorhandling.Internal, err.Error()))
 		return err
 	}
-	c.String(200, fmt.Sprintf("emp id %v has been deleted", emp.Id))
+	c.String(200, fmt.Sprintf("emp id %v has been deleted", id))
 	return nil
-}
-func getEmployeeById(id string) (data.Employee, error) {
-	var emp data.Employee
-	q := "SELECT * FROM employee WHERE id = ?"
-	row := config.Db.QueryRow(q, id)
-	if err := row.Scan(&emp.Id, &emp.FirstName, &emp.MiddleName,
-		&emp.LastName, &emp.Gender, &emp.Salary, &emp.DOB, &emp.Email,
-		&emp.Phone, &emp.State, &emp.Postcode, &emp.AddressLine1, &emp.AddressLine2,
-		&emp.TFN, &emp.SuperBalance); err != nil {
-		if err == sql.ErrNoRows {
-			return data.Employee{}, err
-		}
-		return data.Employee{}, err
-	}
-	return emp, nil
 }
 
 func (r *MysqlRepo) UpdateEmployee(c *gin.Context) error {
 	var originalEmp, newEmp data.Employee
 	id := c.Params.ByName("id")
 	//if param is empty, do not update
-	//q := "UPDATE employee SET name = ?, email = ?, phone = ? WHERE id = ?"
 	q := "UPDATE employee SET first_name = ?,middle_name = ?,last_name = ? ,gender = ?,salary = ?,dob = ?,email = ?, phone = ?, state = ? ,postcode = ?, address_line1 = ?,address_line2 = ?, tfn = ?, super_balance = ? WHERE id = ?"
 	originalEmp, err := getEmployeeById(id) //check if emp exists
 	if err != nil {
