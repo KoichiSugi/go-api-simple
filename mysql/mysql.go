@@ -6,24 +6,40 @@ import (
 	"git-clones/go-api-simple/config"
 	"git-clones/go-api-simple/data"
 	"git-clones/go-api-simple/errorhandling"
+	"git-clones/go-api-simple/repository"
 	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator"
+	"github.com/go-sql-driver/mysql"
 	"github.com/google/uuid"
 )
 
-//this will have the implementation of repository interface for CRUD functions for mysql
-
 type MysqlRepo struct {
-	db *sql.DB
+	SqlDb *sql.DB
 }
 
 func (r *MysqlRepo) Close() {
-	r.db.Close()
+	r.SqlDb.Close()
 }
 
+func NewMySQLRepository(dialect string, config mysql.Config, idleConn, maxConn int) (repository.Repository, error) {
+	db, err := sql.Open(dialect, config.FormatDSN())
+	if err != nil {
+		return nil, err
+	}
+
+	err = db.Ping()
+	if err != nil {
+		return nil, err
+	}
+	db.SetMaxIdleConns(idleConn)
+	db.SetMaxOpenConns(maxConn)
+	return &MysqlRepo{db}, nil
+}
+
+//this will have the implementation of repository interface for CRUD functions for mysql
 func executeQuery(q string) (*sql.Rows, error) {
 	rows, err := config.Db.Query(q)
 	if err != nil {
@@ -57,7 +73,7 @@ func (r *MysqlRepo) GetAllEmployees(c *gin.Context) ([]data.Employee, error) {
 	return emps, nil
 }
 
-func (r *MysqlRepo) GetEmployeeByIdHandler(c *gin.Context) error {
+func (r *MysqlRepo) GetEmployeeById(c *gin.Context) error {
 	id := c.Params.ByName("id")
 	emp, err := getEmployeeById(id)
 	if err != nil { //if not found
