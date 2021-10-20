@@ -1,5 +1,5 @@
-# go-api-simple
-
+# CRUD application using Go with MySQL and REST APIs simple demo
+ 
 This is a demo of creating a simple CRUD application using Go, MySQL and REST APIs
 
 Technology stack below is in use:
@@ -10,10 +10,7 @@ Technology stack below is in use:
 
 ## Usage
 
-```
-run main.go
 
-```
 ## Sending REST Request
 
 #GET all employees
@@ -44,3 +41,7 @@ http://localhost:8080/employee/:id
 
 
 Run the following command in a terminal environment:
+```
+run main.go
+
+```
