@@ -30,7 +30,7 @@ func (r *RequestError) StatusBadRequest() bool {
 	return r.Code == BadRequest //400
 }
 
-func WrapError(info, msg string, sc StatusCode) *RequestError {
+func WrapError(info string, sc StatusCode, msg string) *RequestError {
 	return &RequestError{
 		Context: info,
 		Code:    sc,
