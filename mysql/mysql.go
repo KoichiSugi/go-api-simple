@@ -7,41 +7,38 @@ import (
 	"git-clones/go-api-simple/errorhandling"
 	"git-clones/go-api-simple/repository"
 	"log"
-	"net/http"
 
-	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator"
 	"github.com/go-sql-driver/mysql"
 	"github.com/google/uuid"
 )
 
 type MysqlRepo struct {
-	SqlDb *sql.DB
+	Mysqldb *sql.DB
 }
 
 func (r *MysqlRepo) Close() {
-	r.SqlDb.Close()
+	r.Mysqldb.Close()
 }
 
 func NewMySQLRepository(dialect string, config mysql.Config, idleConn, maxConn int) (repository.Repository, error) {
 	db, err := sql.Open(dialect, config.FormatDSN())
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to open sql")
 	}
 
 	err = db.Ping()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("ping error")
 	}
 	db.SetMaxIdleConns(idleConn)
 	db.SetMaxOpenConns(maxConn)
-	return &MysqlRepo{db}, nil
+	return &MysqlRepo{db}, nil // returing address of MysqlRepo type variable
 }
 
 //this will have the implementation of repository interface for CRUD functions for mysql
 func executeQuery(q string, r *MysqlRepo) (*sql.Rows, error) {
 	//rows, err := config.Db.Query(q)
-	rows, err := r.SqlDb.Query(q)
+	rows, err := r.Mysqldb.Query(q)
 	if err != nil {
 		//c.JSON(500, gin.H{"message": "Something is wrong with query or db"})
 		rows.Close()
@@ -50,11 +47,11 @@ func executeQuery(q string, r *MysqlRepo) (*sql.Rows, error) {
 	return rows, nil
 }
 
-func (r *MysqlRepo) GetAllEmployees(c *gin.Context) ([]data.Employee, error) {
+func (r *MysqlRepo) GetAllEmployees() ([]data.Employee, error) {
 	var emps []data.Employee
 	rows, err := executeQuery("SELECT * FROM employee", r)
 	if err != nil {
-		c.JSON(int(errorhandling.BadRequest), err)
+		//c.JSON(int(errorhandling.BadRequest), err)
 		return nil, err
 	}
 	defer rows.Close()
@@ -64,32 +61,31 @@ func (r *MysqlRepo) GetAllEmployees(c *gin.Context) ([]data.Employee, error) {
 			&emp.LastName, &emp.Gender, &emp.Salary, &emp.DOB, &emp.Email,
 			&emp.Phone, &emp.State, &emp.Postcode, &emp.AddressLine1, &emp.AddressLine2,
 			&emp.TFN, &emp.SuperBalance); err != nil {
-			c.JSON(500, errorhandling.WrapError("mysql.GetAllEmployee rows.scan", errorhandling.BadRequest, err.Error()))
+			//c.JSON(500, errorhandling.WrapError("mysql.GetAllEmployee rows.scan", errorhandling.BadRequest, err.Error()))
 			return nil, err
 		}
 		emps = append(emps, emp)
-		c.JSON(http.StatusOK, emp)
+		//c.JSON(http.StatusOK, emp)
 	}
 	return emps, nil
 }
 
-func (r *MysqlRepo) GetEmployeeById(c *gin.Context) error {
-	id := c.Params.ByName("id")
+func (r *MysqlRepo) GetEmployeeById(id string) (data.Employee, error) {
 	emp, err := getEmployeeById(id, r)
 	if err != nil { //if not found
-		c.JSON(404, errorhandling.WrapError("mysql.GetEmployeeByIdHandler sql.ErrNoRows", errorhandling.NotFound, err.Error()))
-		return err
+		//c.JSON(404, errorhandling.WrapError("mysql.GetEmployeeByIdHandler sql.ErrNoRows", errorhandling.NotFound, err.Error()))
+		return data.Employee{}, err
 	}
 	//if found
-	c.JSON(http.StatusOK, emp)
-	return nil
+	//c.JSON(http.StatusOK, emp)
+	return emp, nil
 }
 
 func getEmployeeById(id string, r *MysqlRepo) (data.Employee, error) {
 	var emp data.Employee
 	q := "SELECT * FROM employee WHERE id = ?"
 	//row := config.Db.QueryRow(q, id)
-	row := r.SqlDb.QueryRow(q, id)
+	row := r.Mysqldb.QueryRow(q, id)
 	if err := row.Scan(&emp.Id, &emp.FirstName, &emp.MiddleName,
 		&emp.LastName, &emp.Gender, &emp.Salary, &emp.DOB, &emp.Email,
 		&emp.Phone, &emp.State, &emp.Postcode, &emp.AddressLine1, &emp.AddressLine2,
@@ -101,76 +97,50 @@ func getEmployeeById(id string, r *MysqlRepo) (data.Employee, error) {
 	}
 	return emp, nil
 }
-func (r *MysqlRepo) CreateEmployee(c *gin.Context) error {
-	var emp data.Employee
-	v := validator.New()
+func (r *MysqlRepo) CreateEmployee(emp data.Employee) (data.Employee, error) {
 
-	if err := c.BindJSON(&emp); err != nil {
-		err := v.Struct(emp)
-		for _, e := range err.(validator.ValidationErrors) {
-			log.Println(e)
-		}
-		c.JSON(int(errorhandling.BadRequest), &errorhandling.RequestError{Context: " CreateEmployee c.BindJson", Code: errorhandling.BadRequest, Message: err.Error()})
-		return err
-	}
-	emp.Id = uuid.New().String() // generate a new random UUID and assign
-	log.Println(emp)
+	emp.Id = uuid.New().String()       // generate a new random UUID and assign
 	tm := emp.DOB.Format("2006-01-02") //format into string
-	log.Println(tm)
-	//_, err := config.Db.Exec("INSERT INTO employee (id,first_name ,middle_name ,last_name ,gender ,salary ,dob ,email , phone , state ,postcode, address_line1 ,address_line2, tfn, super_balance) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", emp.Id, emp.FirstName, emp.MiddleName, emp.LastName, emp.Gender, emp.Salary, tm, emp.Email, emp.Phone, emp.State, emp.Postcode, emp.AddressLine1, emp.AddressLine2, emp.TFN, emp.SuperBalance)
-	_, err := r.SqlDb.Exec("INSERT INTO employee (id,first_name ,middle_name ,last_name ,gender ,salary ,dob ,email , phone , state ,postcode, address_line1 ,address_line2, tfn, super_balance) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", emp.Id, emp.FirstName, emp.MiddleName, emp.LastName, emp.Gender, emp.Salary, tm, emp.Email, emp.Phone, emp.State, emp.Postcode, emp.AddressLine1, emp.AddressLine2, emp.TFN, emp.SuperBalance)
+	_, err := r.Mysqldb.Exec("INSERT INTO employee (id,first_name ,middle_name ,last_name ,gender ,salary ,dob ,email , phone , state ,postcode, address_line1 ,address_line2, tfn, super_balance) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", emp.Id, emp.FirstName, emp.MiddleName, emp.LastName, emp.Gender, emp.Salary, tm, emp.Email, emp.Phone, emp.State, emp.Postcode, emp.AddressLine1, emp.AddressLine2, emp.TFN, emp.SuperBalance)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, &errorhandling.RequestError{Context: "insert confif.Db.Exec", Code: errorhandling.BadRequest, Message: err.Error()})
-		return err
+		return data.Employee{}, err
 	}
-	c.JSON(http.StatusOK, emp)
-	return nil
+	return emp, nil
 }
 
-func (r *MysqlRepo) DeleteEmployee(c *gin.Context) error {
-	id := c.Params.ByName("id")
+func (r *MysqlRepo) DeleteEmployee(id string) error {
 	//find if id exists
 	_, err := getEmployeeById(id, r)
 	if err != nil { //if not exists return
-		c.JSON(404, errorhandling.WrapError("mysql.GetAllEmployeeById sql.ErrNoRows", errorhandling.NotFound, err.Error()))
-		return err
+		return fmt.Errorf("sql: no rows in result set")
 	}
-	//delete emp
-	query := "DELETE FROM employee WHERE id = ?"
-	_, err = r.SqlDb.Exec(query, id)
+	query := "DELETE FROM employee WHERE id = ?" //delete emp
+	_, err = r.Mysqldb.Exec(query, id)
 	if err != nil {
-		c.JSON(500, errorhandling.WrapError("mysql.GetAllEmployeeById r.SqlDb.Exec", errorhandling.Internal, err.Error()))
-		return err
+		return &errorhandling.RequestError{Context: "mysql.GetAllEmployeeById delete query execution", Code: errorhandling.Internal, Message: err.Error()}
 	}
-	c.String(200, fmt.Sprintf("emp id %v has been deleted", id))
-	return nil
+	return nil //if deletion successful
 }
 
-func (r *MysqlRepo) UpdateEmployee(c *gin.Context) error {
-	var originalEmp, newEmp data.Employee
-	id := c.Params.ByName("id")
+func (r *MysqlRepo) UpdateEmployee(emp data.Employee) (data.Employee, error) {
+	var newEmp data.Employee
 	//if param is empty, do not update
 	q := "UPDATE employee SET first_name = ?,middle_name = ?,last_name = ? ,gender = ?,salary = ?,dob = ?,email = ?, phone = ?, state = ? ,postcode = ?, address_line1 = ?,address_line2 = ?, tfn = ?, super_balance = ? WHERE id = ?"
-	originalEmp, err := getEmployeeById(id, r) //check if emp exists
-	if err != nil {
-		c.JSON(404, errorhandling.WrapError("mysql.go.UpdateEmployee", errorhandling.NotFound, err.Error()))
-		return err
+	originalEmp, err := getEmployeeById(emp.Id, r)
+	if err != nil { //if not exists return
+		return data.Employee{}, fmt.Errorf("sql: no rows in result set")
 	}
 	log.Println(originalEmp)
-	if err = c.BindJSON(&newEmp); err != nil { //check if it binds correctly
-		c.JSON(int(errorhandling.BadRequest), &errorhandling.RequestError{Context: "UpdateEmployee c.BindJson", Code: errorhandling.BadRequest, Message: err.Error()})
-		return err
-	}
-	tm := originalEmp.DOB.Format("2006-01-02") //format into string
-	log.Println(tm)
-	//if originalEmp.FirstName != newEmp.FirstName
-	result, err := r.SqlDb.Exec(q, newEmp.FirstName, newEmp.MiddleName,
-		newEmp.LastName, newEmp.Gender, newEmp.Salary, tm, newEmp.Email,
-		newEmp.Phone, newEmp.State, newEmp.Postcode, newEmp.AddressLine1, newEmp.AddressLine2,
-		newEmp.TFN, newEmp.SuperBalance, id)
+	tm := emp.DOB.Format("2006-01-02") //format into string
+
+	_, err = r.Mysqldb.Exec(q, emp.FirstName, emp.MiddleName,
+		emp.LastName, emp.Gender, emp.Salary, tm, emp.Email,
+		emp.Phone, emp.State, emp.Postcode, emp.AddressLine1, emp.AddressLine2,
+		emp.TFN, emp.SuperBalance, emp.Id)
 	if err != nil {
-		c.JSON(404, errorhandling.WrapError("mysql.go.UpdateEmployee r.SqlDb.Exec", errorhandling.NotFound, err.Error()))
+		return data.Employee{}, &errorhandling.RequestError{Context: "mysql.go.UpdateEmployee r.SqlDb.Exec update", Code: errorhandling.Internal, Message: err.Error()}
 	}
-	c.JSON(200, result)
-	return nil
+	newEmp, _ = getEmployeeById(emp.Id, r)
+	log.Println("Updated emp: ", newEmp)
+	return newEmp, nil
 }
