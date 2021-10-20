@@ -1,10 +1,11 @@
-package service_test
+package mysql_test
 
 import (
 	"database/sql"
 	"git-clones/go-api-simple/data"
-	"git-clones/go-api-simple/service"
+	"git-clones/go-api-simple/mysql"
 	"log"
+	"net/http/httptest"
 	"testing"
 	"time"
 
@@ -24,7 +25,7 @@ var u = &data.Employee{
 	LastName:     "Fukada",
 	Gender:       "Female",
 	Salary:       9999.99,
-	DOB:          mockDOB,
+	DOB:          data.CustomDOB(mockDOB),
 	Email:        "momo@gmail.com",
 	Phone:        "03999999",
 	State:        "VIC",
@@ -44,15 +45,27 @@ func NewMock() (*sql.DB, sqlmock.Sqlmock) {
 	return db, mock
 }
 
-func TestExecuteQueryWithId(t *testing.T) {
-	_, mock := NewMock()
-	query := "SELECT * FROM employee"
+func TestGetAllEmployees(t *testing.T) {
+	db, mock := NewMock()
+	repo := &mysql.MysqlRepo{db}
+	defer func() {
+		repo.Close()
+	}()
+
+	w := httptest.NewRecorder()
+	gin.SetMode(gin.TestMode)
+	c, _ := gin.CreateTestContext(w)
+	query := "SELECT id, name, email, phone FROM users WHERE id = \\?"
 	rows := sqlmock.NewRows([]string{"Id", "firstname", "middlename", "lastname", "gender", "salary", "dob", "email", "phone", "state", "postcode", "addressline1", "addressline2", "tfn", "superbalance"}).
 		AddRow(u.Id, u.FirstName, u.MiddleName, u.LastName, u.Gender, u.Salary, "1994-01-01", u.Email, u.Phone, u.State, u.Postcode, u.AddressLine1, u.AddressLine2, u.TFN, u.SuperBalance)
 
-	mock.ExpectQuery(query).WithArgs(u.Id).WillReturnRows(rows)
-	result := service.ExecuteQuery(u.Id, c)
-	log.Print(result)
-	assert.NotNil(t, result)
-
+	mock.ExpectQuery(query).WillReturnRows(rows)
+	log.Println("mock gin context: ", c)
+	log.Printf("repo type %T: ", repo)
+	users, err := repo.GetAllEmployees(c)
+	log.Println("users: ", users)
+	log.Println("error", err)
+	assert.NotEmpty(t, users)
+	assert.NoError(t, err)
+	assert.Len(t, users, 1)
 }

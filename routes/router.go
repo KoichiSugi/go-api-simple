@@ -17,35 +17,6 @@ func (fn rootHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// func CreateRouter() *gin.Engine {
-// 	var msr mysql.MysqlRepo
-// 	log.Println("test:", msr)
-// 	router := gin.Default()
-// 	group1 := router.Group("/employee")
-// 	{
-// 		group1.GET("/", func(ctx *gin.Context) {
-// 			msr.GetAllEmployees(ctx)
-// 		})
-// 		group1.GET("/:id", func(c *gin.Context) {
-// 			msr.GetEmployeeByIdHandler(c)
-// 		})
-// 		group1.POST("/", func(c *gin.Context) {
-// 			msr.CreateEmployee(c)
-// 		})
-// 		group1.DELETE("/:id", func(c *gin.Context) {
-// 			msr.DeleteEmployee(c)
-// 		})
-// 		group1.PUT("/:id", func(c *gin.Context) {
-// 			msr.UpdateEmployee(c)
-// 		})
-// 		//group1.GET("/:id", service.GetEmployeeById)
-// 		//group1.POST("/", service.CreateEmployee)
-// 		//group1.DELETE("/:id", service.DeleteEmployee)
-
-// 	}
-// 	return router
-// }
-
 func SetUpRouter(repo repository.Repository) *gin.Engine {
 	log.Println("test repo:", repo)
 	router := gin.Default()

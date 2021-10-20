@@ -16,32 +16,32 @@ import (
 )
 
 type MysqlRepo struct {
-	SqlDb *sql.DB
+	Mysqldb *sql.DB
 }
 
 func (r *MysqlRepo) Close() {
-	r.SqlDb.Close()
+	r.Mysqldb.Close()
 }
 
 func NewMySQLRepository(dialect string, config mysql.Config, idleConn, maxConn int) (repository.Repository, error) {
 	db, err := sql.Open(dialect, config.FormatDSN())
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to open sql")
 	}
 
 	err = db.Ping()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("ping error")
 	}
 	db.SetMaxIdleConns(idleConn)
 	db.SetMaxOpenConns(maxConn)
-	return &MysqlRepo{db}, nil
+	return &MysqlRepo{db}, nil // returing address of MysqlRepo type variable
 }
 
 //this will have the implementation of repository interface for CRUD functions for mysql
 func executeQuery(q string, r *MysqlRepo) (*sql.Rows, error) {
 	//rows, err := config.Db.Query(q)
-	rows, err := r.SqlDb.Query(q)
+	rows, err := r.Mysqldb.Query(q)
 	if err != nil {
 		//c.JSON(500, gin.H{"message": "Something is wrong with query or db"})
 		rows.Close()
@@ -89,7 +89,7 @@ func getEmployeeById(id string, r *MysqlRepo) (data.Employee, error) {
 	var emp data.Employee
 	q := "SELECT * FROM employee WHERE id = ?"
 	//row := config.Db.QueryRow(q, id)
-	row := r.SqlDb.QueryRow(q, id)
+	row := r.Mysqldb.QueryRow(q, id)
 	if err := row.Scan(&emp.Id, &emp.FirstName, &emp.MiddleName,
 		&emp.LastName, &emp.Gender, &emp.Salary, &emp.DOB, &emp.Email,
 		&emp.Phone, &emp.State, &emp.Postcode, &emp.AddressLine1, &emp.AddressLine2,
@@ -118,12 +118,12 @@ func (r *MysqlRepo) CreateEmployee(c *gin.Context) error {
 	tm := emp.DOB.Format("2006-01-02") //format into string
 	log.Println(tm)
 	//_, err := config.Db.Exec("INSERT INTO employee (id,first_name ,middle_name ,last_name ,gender ,salary ,dob ,email , phone , state ,postcode, address_line1 ,address_line2, tfn, super_balance) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", emp.Id, emp.FirstName, emp.MiddleName, emp.LastName, emp.Gender, emp.Salary, tm, emp.Email, emp.Phone, emp.State, emp.Postcode, emp.AddressLine1, emp.AddressLine2, emp.TFN, emp.SuperBalance)
-	_, err := r.SqlDb.Exec("INSERT INTO employee (id,first_name ,middle_name ,last_name ,gender ,salary ,dob ,email , phone , state ,postcode, address_line1 ,address_line2, tfn, super_balance) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", emp.Id, emp.FirstName, emp.MiddleName, emp.LastName, emp.Gender, emp.Salary, tm, emp.Email, emp.Phone, emp.State, emp.Postcode, emp.AddressLine1, emp.AddressLine2, emp.TFN, emp.SuperBalance)
+	_, err := r.Mysqldb.Exec("INSERT INTO employee (id,first_name ,middle_name ,last_name ,gender ,salary ,dob ,email , phone , state ,postcode, address_line1 ,address_line2, tfn, super_balance) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", emp.Id, emp.FirstName, emp.MiddleName, emp.LastName, emp.Gender, emp.Salary, tm, emp.Email, emp.Phone, emp.State, emp.Postcode, emp.AddressLine1, emp.AddressLine2, emp.TFN, emp.SuperBalance)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, &errorhandling.RequestError{Context: "insert confif.Db.Exec", Code: errorhandling.BadRequest, Message: err.Error()})
 		return err
 	}
-	c.JSON(http.StatusOK, emp)
+	c.JSON(http.StatusCreated, emp)
 	return nil
 }
 
@@ -137,7 +137,7 @@ func (r *MysqlRepo) DeleteEmployee(c *gin.Context) error {
 	}
 	//delete emp
 	query := "DELETE FROM employee WHERE id = ?"
-	_, err = r.SqlDb.Exec(query, id)
+	_, err = r.Mysqldb.Exec(query, id)
 	if err != nil {
 		c.JSON(500, errorhandling.WrapError("mysql.GetAllEmployeeById r.SqlDb.Exec", errorhandling.Internal, err.Error()))
 		return err
@@ -164,7 +164,7 @@ func (r *MysqlRepo) UpdateEmployee(c *gin.Context) error {
 	tm := originalEmp.DOB.Format("2006-01-02") //format into string
 	log.Println(tm)
 	//if originalEmp.FirstName != newEmp.FirstName
-	result, err := r.SqlDb.Exec(q, newEmp.FirstName, newEmp.MiddleName,
+	result, err := r.Mysqldb.Exec(q, newEmp.FirstName, newEmp.MiddleName,
 		newEmp.LastName, newEmp.Gender, newEmp.Salary, tm, newEmp.Email,
 		newEmp.Phone, newEmp.State, newEmp.Postcode, newEmp.AddressLine1, newEmp.AddressLine2,
 		newEmp.TFN, newEmp.SuperBalance, id)

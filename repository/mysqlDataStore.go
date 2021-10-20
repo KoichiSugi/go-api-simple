@@ -14,3 +14,11 @@ type Repository interface {
 	DeleteEmployee(c *gin.Context) error
 	UpdateEmployee(c *gin.Context) error
 }
+
+// func RepositoryHandler(i interface{}) {
+// 	switch o := i.(type) {
+// 	case mysql.MysqlRepo:
+// 	default:
+
+// 	}
+// }
