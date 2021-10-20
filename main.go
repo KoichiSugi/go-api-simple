@@ -8,13 +8,14 @@ import (
 )
 
 func main() {
-	config.ConnectDb()
-	defer config.Db.Close()
+	// config.ConnectDb()
+	// defer config.Db.Close()
 	//exp
 	repo, err := mysql.NewMySQLRepository("mysql", config.CreateConfig(), 3, 3)
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer repo.Close()
 	r := routes.SetUpRouter(repo)
 	r.Run()
 	//exp above
