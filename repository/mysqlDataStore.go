@@ -2,23 +2,13 @@ package repository
 
 import (
 	"git-clones/go-api-simple/data"
-
-	"github.com/gin-gonic/gin"
 )
 
 type Repository interface {
 	Close()
-	GetAllEmployees(c *gin.Context) ([]data.Employee, error)
-	GetEmployeeById(c *gin.Context) error
-	CreateEmployee(c *gin.Context) error
-	DeleteEmployee(c *gin.Context) error
-	UpdateEmployee(c *gin.Context) error
+	GetAllEmployees() ([]data.Employee, error)
+	GetEmployeeById(id string) (data.Employee, error)
+	CreateEmployee(emp data.Employee) (data.Employee, error)
+	DeleteEmployee(id string) error
+	UpdateEmployee(emp data.Employee) (data.Employee, error)
 }
-
-// func RepositoryHandler(i interface{}) {
-// 	switch o := i.(type) {
-// 	case mysql.MysqlRepo:
-// 	default:
-
-// 	}
-// }
