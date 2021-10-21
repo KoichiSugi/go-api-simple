@@ -70,7 +70,6 @@ func (r *MysqlRepo) GetEmployeeById(id string) (data.Employee, error) {
 	if err != nil { //if not found
 		return data.Employee{}, err
 	}
-
 	return emp, nil //if found
 }
 

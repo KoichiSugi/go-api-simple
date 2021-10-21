@@ -40,7 +40,7 @@ func GetMySqlRepo() repository.Repository {
 func SetUpRouter(repo repository.Repository) *gin.Engine {
 	log.Println("test repo:", repo)
 	router := gin.Default()
-	group1 := router.Group("/employee")
+	group1 := router.Group("/employees")
 	{
 		group1.GET("/", func(ctx *gin.Context) {
 			GetAll(ctx)
