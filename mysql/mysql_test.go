@@ -5,16 +5,13 @@ import (
 	"git-clones/go-api-simple/data"
 	"git-clones/go-api-simple/mysql"
 	"log"
-	"net/http/httptest"
 	"testing"
 	"time"
 
 	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )
 
-var c *gin.Context
 var format = "2006-01-02"
 var mockDOB, _ = time.Parse(format, "2018-12-12")
 
@@ -36,8 +33,27 @@ var u = &data.Employee{
 	SuperBalance: 100.0,
 }
 
+var u2 = data.Employee{
+	Id:           "123",
+	FirstName:    "Kyoko",
+	MiddleName:   "B",
+	LastName:     "Fukada",
+	Gender:       "Female",
+	Salary:       9999.99,
+	DOB:          data.CustomDOB(mockDOB),
+	Email:        "momo@gmail.com",
+	Phone:        "03999999",
+	State:        "VIC",
+	Postcode:     1234,
+	AddressLine1: "ABC street 123",
+	AddressLine2: "JPN",
+	TFN:          "123456",
+	SuperBalance: 100.0,
+}
+
 func NewMock() (*sql.DB, sqlmock.Sqlmock) {
-	db, mock, err := sqlmock.New()
+	//db, mock, err := sqlmock.New()
+	db, mock, err := sqlmock.New(sqlmock.QueryMatcherOption(sqlmock.QueryMatcherEqual))
 	if err != nil {
 		log.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
 	}
@@ -52,20 +68,94 @@ func TestGetAllEmployees(t *testing.T) {
 		repo.Close()
 	}()
 
-	w := httptest.NewRecorder()
-	gin.SetMode(gin.TestMode)
-	c, _ := gin.CreateTestContext(w)
-	query := "SELECT id, name, email, phone FROM users WHERE id = \\?"
+	query := "SELECT * FROM employee"
 	rows := sqlmock.NewRows([]string{"Id", "firstname", "middlename", "lastname", "gender", "salary", "dob", "email", "phone", "state", "postcode", "addressline1", "addressline2", "tfn", "superbalance"}).
-		AddRow(u.Id, u.FirstName, u.MiddleName, u.LastName, u.Gender, u.Salary, "1994-01-01", u.Email, u.Phone, u.State, u.Postcode, u.AddressLine1, u.AddressLine2, u.TFN, u.SuperBalance)
+		AddRow(u.Id, u.FirstName, u.MiddleName, u.LastName, u.Gender, u.Salary, mockDOB, u.Email, u.Phone, u.State, u.Postcode, u.AddressLine1, u.AddressLine2, u.TFN, u.SuperBalance)
 
 	mock.ExpectQuery(query).WillReturnRows(rows)
-	log.Println("mock gin context: ", c)
-	log.Printf("repo type %T: ", repo)
-	users, err := repo.GetAllEmployees(c)
+	users, err := repo.GetAllEmployees()
 	log.Println("users: ", users)
 	log.Println("error", err)
 	assert.NotEmpty(t, users)
 	assert.NoError(t, err)
 	assert.Len(t, users, 1)
+}
+
+func TestGetEmployeeById(t *testing.T) {
+	db, mock := NewMock()
+	repo := &mysql.MysqlRepo{db}
+	defer func() {
+		repo.Close()
+	}()
+
+	query := "SELECT * FROM employee WHERE id = ?"
+	rows := sqlmock.NewRows([]string{"Id", "firstname", "middlename", "lastname", "gender", "salary", "dob", "email", "phone", "state", "postcode", "addressline1", "addressline2", "tfn", "superbalance"}).
+		AddRow(u.Id, u.FirstName, u.MiddleName, u.LastName, u.Gender, u.Salary, mockDOB, u.Email, u.Phone, u.State, u.Postcode, u.AddressLine1, u.AddressLine2, u.TFN, u.SuperBalance)
+
+	mock.ExpectQuery(query).WithArgs(u.Id).WillReturnRows(rows)
+
+	user, err := repo.GetEmployeeById(u.Id)
+	log.Println("user returned: ", user)
+	log.Println("error", err)
+	assert.NotNil(t, user)
+	assert.NoError(t, err)
+}
+
+func TestGetEmployeeByIdFailure(t *testing.T) {
+	db, mock := NewMock()
+	repo := &mysql.MysqlRepo{db}
+	defer func() {
+		repo.Close()
+	}()
+
+	query := "SELECT * FROM employee WHERE id = ?"
+	rows := sqlmock.NewRows([]string{"Id", "firstname", "middlename", "lastname", "gender", "salary", "dob", "email", "phone", "state", "postcode", "addressline1", "addressline2", "tfn", "superbalance"}).
+		AddRow(u.Id, u.FirstName, u.MiddleName, u.LastName, u.Gender, u.Salary, mockDOB, u.Email, u.Phone, u.State, u.Postcode, u.AddressLine1, u.AddressLine2, u.TFN, u.SuperBalance)
+
+	mock.ExpectQuery(query).WithArgs(u.Id).WillReturnRows(rows)
+
+	user, err := repo.GetEmployeeById("nonExistingId")
+	log.Println("user returned: ", user)
+	log.Println("error", err)
+	assert.Empty(t, user)
+	assert.Error(t, err)
+}
+
+func TestCreateEmployee(t *testing.T) { //error
+	db, mock := NewMock()
+	repo := &mysql.MysqlRepo{db}
+	defer func() {
+		repo.Close()
+	}()
+	query := "INSERT INTO employee (id,first_name ,middle_name ,last_name ,gender ,salary ,dob ,email , phone , state ,postcode, address_line1 ,address_line2, tfn, super_balance) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+	prep := mock.ExpectPrepare(query)
+	prep.ExpectExec().WithArgs(u.Id, u.FirstName, u.MiddleName, u.LastName, u.Gender, u.Salary, mockDOB, u.Email, u.Phone, u.State, u.Postcode, u.AddressLine1, u.AddressLine2, u.TFN, u.SuperBalance).WillReturnResult(sqlmock.NewResult(0, 1))
+
+	_, err := repo.CreateEmployee(u2)
+	assert.NoError(t, err)
+
+}
+
+func TestCreateEmployeeFailure(t *testing.T) {
+
+}
+
+func TestDeleteEmployee(t *testing.T) {
+	db, mock := NewMock()
+	repo := &mysql.MysqlRepo{db}
+	defer func() {
+		repo.Close()
+	}()
+
+	sqlmock.NewRows([]string{"Id", "firstname", "middlename", "lastname", "gender", "salary", "dob", "email", "phone", "state", "postcode", "addressline1", "addressline2", "tfn", "superbalance"}).
+		AddRow(u.Id, u.FirstName, u.MiddleName, u.LastName, u.Gender, u.Salary, mockDOB, u.Email, u.Phone, u.State, u.Postcode, u.AddressLine1, u.AddressLine2, u.TFN, u.SuperBalance)
+
+	query := "DELETE FROM employee WHERE id = ?"
+	prep := mock.ExpectPrepare(query)
+	prep.ExpectExec().WithArgs(u.Id).WillReturnResult(sqlmock.NewResult(0, 1))
+
+	err := repo.DeleteEmployee(u.Id)
+	log.Println("error: ", err)
+	log.Println("u.Id: ", u.Id)
+	assert.NoError(t, err)
 }
