@@ -1,0 +1,144 @@
+ { "port": 3000,
+  "protocol": "http",
+  "stubs": [
+    {
+      "predicates": [
+        {
+          "equals": {"path":"/ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance"}
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 200,
+            "headers": {
+              "Location": "http://localhost:3000/ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance",
+              "Content-Type": "application/xml"
+            },
+            "body": "400000"
+          }
+        },
+        {
+          "is": {
+            "statusCode": 400,
+            "headers": {
+              "Content-Type": "application/xml"
+            },
+            "body": "<error>0</error>"
+          }
+        }
+      ]
+    },
+    {
+      "predicates": [
+        {
+          "equals": {"path":"/ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance"}
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 200,
+            "headers": {
+              "Location": "http://localhost:3000/ato/employee/1234",
+              "Content-Type": "application/xml"
+            },
+            "body": "40000"
+          }
+        },
+        {
+          "is": {
+            "statusCode": 400,
+            "headers": {
+              "Content-Type": "application/xml"
+            },
+            "body": "<error>0</error>"
+          }
+        }
+      ]
+    },
+    {
+      "predicates": [
+        {
+          "equals": {"path":"/ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance"}
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 200,
+            "headers": {
+              "Location": "http://localhost:3000/ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance",
+              "Content-Type": "application/xml"
+            },
+            "body": "400000"
+          }
+        },
+        {
+          "is": {
+            "statusCode": 400,
+            "headers": {
+              "Content-Type": "application/xml"
+            },
+            "body": "<error>0</error>"
+          }
+        }
+      ]
+    },
+    {
+      "predicates": [
+        {
+          "equals": {"path":"/ato/employee/b/balance"}
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 200,
+            "headers": {
+              "Location": "http://localhost:3000/ato/employee/b/balance",
+              "Content-Type": "application/xml"
+            },
+            "body": "40000"
+          }
+        },
+        {
+          "is": {
+            "statusCode": 400,
+            "headers": {
+              "Content-Type": "application/xml"
+            },
+            "body": "<error>0</error>"
+          }
+        }
+      ]
+    },
+    {
+      "predicates": [
+        {
+          "equals": {"path":"/ato/employee/a/balance"}
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 200,
+            "headers": {
+              "Content-Type": "application/xml"
+            },
+            "body": "1000"
+          }
+        },
+        {
+          "is": {
+            "statusCode": 200,
+            "headers": {
+              "Content-Type": "application/xml"
+            },
+            "body": "0"
+          }
+        }
+      ]
+    }
+  ]
+}
