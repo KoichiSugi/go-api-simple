@@ -37,10 +37,8 @@ func NewMySQLRepository(dialect string, config mysql.Config, idleConn, maxConn i
 
 //this will have the implementation of repository interface for CRUD functions for mysql
 func executeQuery(q string, r *MysqlRepo) (*sql.Rows, error) {
-	//rows, err := config.Db.Query(q)
 	rows, err := r.Mysqldb.Query(q)
 	if err != nil {
-		//c.JSON(500, gin.H{"message": "Something is wrong with query or db"})
 		rows.Close()
 		return nil, errorhandling.WrapError("mysql.executeQuery function", errorhandling.BadRequest, "something wrong with query")
 	}
@@ -51,7 +49,6 @@ func (r *MysqlRepo) GetAllEmployees() ([]data.Employee, error) {
 	var emps []data.Employee
 	rows, err := executeQuery("SELECT * FROM employee", r)
 	if err != nil {
-		//c.JSON(int(errorhandling.BadRequest), err)
 		return nil, err
 	}
 	defer rows.Close()
@@ -61,11 +58,9 @@ func (r *MysqlRepo) GetAllEmployees() ([]data.Employee, error) {
 			&emp.LastName, &emp.Gender, &emp.Salary, &emp.DOB, &emp.Email,
 			&emp.Phone, &emp.State, &emp.Postcode, &emp.AddressLine1, &emp.AddressLine2,
 			&emp.TFN, &emp.SuperBalance); err != nil {
-			//c.JSON(500, errorhandling.WrapError("mysql.GetAllEmployee rows.scan", errorhandling.BadRequest, err.Error()))
 			return nil, err
 		}
 		emps = append(emps, emp)
-		//c.JSON(http.StatusOK, emp)
 	}
 	return emps, nil
 }
@@ -73,18 +68,14 @@ func (r *MysqlRepo) GetAllEmployees() ([]data.Employee, error) {
 func (r *MysqlRepo) GetEmployeeById(id string) (data.Employee, error) {
 	emp, err := getEmployeeById(id, r)
 	if err != nil { //if not found
-		//c.JSON(404, errorhandling.WrapError("mysql.GetEmployeeByIdHandler sql.ErrNoRows", errorhandling.NotFound, err.Error()))
 		return data.Employee{}, err
 	}
-	//if found
-	//c.JSON(http.StatusOK, emp)
-	return emp, nil
+	return emp, nil //if found
 }
 
 func getEmployeeById(id string, r *MysqlRepo) (data.Employee, error) {
 	var emp data.Employee
 	q := "SELECT * FROM employee WHERE id = ?"
-	//row := config.Db.QueryRow(q, id)
 	row := r.Mysqldb.QueryRow(q, id)
 	if err := row.Scan(&emp.Id, &emp.FirstName, &emp.MiddleName,
 		&emp.LastName, &emp.Gender, &emp.Salary, &emp.DOB, &emp.Email,
@@ -109,9 +100,8 @@ func (r *MysqlRepo) CreateEmployee(emp data.Employee) (data.Employee, error) {
 }
 
 func (r *MysqlRepo) DeleteEmployee(id string) error {
-	//find if id exists
-	_, err := getEmployeeById(id, r)
-	if err != nil { //if not exists return
+	_, err := getEmployeeById(id, r) //check if id exists
+	if err != nil {                  //if not exists return
 		return fmt.Errorf("sql: no rows in result set")
 	}
 	query := "DELETE FROM employee WHERE id = ?" //delete emp

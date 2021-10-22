@@ -7,8 +7,12 @@ import (
 	"git-clones/go-api-simple/errorhandling"
 	"git-clones/go-api-simple/mysql"
 	"git-clones/go-api-simple/repository"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
+	"strings"
+	"sync"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator"
@@ -40,10 +44,11 @@ func GetMySqlRepo() repository.Repository {
 func SetUpRouter(repo repository.Repository) *gin.Engine {
 	log.Println("test repo:", repo)
 	router := gin.Default()
-	group1 := router.Group("/employee")
+	group1 := router.Group("/employees")
 	{
-		group1.GET("/", func(ctx *gin.Context) {
-			GetAll(ctx)
+		group1.GET("/", func(c *gin.Context) {
+			//GetAll(ctx)
+			FindAll(c)
 		})
 		group1.GET("/:id", func(c *gin.Context) {
 			Find(c)
@@ -61,24 +66,92 @@ func SetUpRouter(repo repository.Repository) *gin.Engine {
 	return router
 }
 
-func GetAll(c *gin.Context) {
+func Find(c *gin.Context) {
+	id := c.Params.ByName("id")
+	emp, err := Repo.GetEmployeeById(id)
+	if err != nil {
+		if err != nil {
+			c.JSON(500, &errorhandling.RequestError{Context: "FindSuper calling getEmployeeById", Code: errorhandling.Internal, Message: err.Error()})
+			return
+		}
+	}
+	super, err := getSuper(emp.Id) //get super balance
+	if err != nil {
+		c.JSON(500, &errorhandling.RequestError{Context: "FindSuper calling getSuper func", Code: errorhandling.Internal, Message: err.Error()})
+		return
+	}
+	if super == 0 {
+		c.JSON(500, &errorhandling.RequestError{Context: "FindSuper: failed retrieving super", Code: errorhandling.Internal, Message: "error retrieving super"})
+		return
+	}
+	emp.SuperBalance = super
+	c.JSON(200, emp)
+}
+
+func FindAll(c *gin.Context) {
 	emps, err := Repo.GetAllEmployees()
 	if err != nil {
 		c.JSON(int(errorhandling.BadRequest), err)
 		return
 	}
+	var wg sync.WaitGroup
+	for i := 0; i < len(emps)-1; i++ {
+		index := i
+		wg.Add(1)
+		go func(index int) {
+			defer wg.Done()
+			super, err := getSuper(emps[index].Id)
+			if err != nil {
+				emps[index].SuperBalance = 0
+			}
+			emps[index].SuperBalance = super
+		}(index)
+	}
+	wg.Wait()
 	c.JSON(http.StatusOK, emps)
 }
 
-func Find(c *gin.Context) {
-	id := c.Params.ByName("id")
-	emp, err := Repo.GetEmployeeById(id)
+func getSuper(id string) (float64, error) {
+	var url = "http://localhost:3000/ato/employee/?/balance"
+	url = strings.Replace(url, "?", id, 1)
+	log.Println("Sending request to this url: ", url)
+	resp, err := http.Get(url)
 	if err != nil {
-		c.JSON(int(errorhandling.NotFound), errorhandling.WrapError("mysql.GetEmployeeById", errorhandling.NotFound, err.Error()))
-		return
+		return 0.0, &errorhandling.RequestError{Context: "getSuper calling ato api", Code: errorhandling.Internal, Message: err.Error()}
 	}
-	c.JSON(http.StatusOK, emp)
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body) //convert reponse to byte[]
+	if err != nil {
+		log.Println("err in coverting response to byte[]:", err)
+		return 0.0, &errorhandling.RequestError{Context: "getSuper.ioutil.ReadAll(resp.Body)", Code: errorhandling.Internal, Message: err.Error()}
+	}
+
+	super, err := strconv.ParseFloat(string(body), 64) //convert stirng to float
+	if err != nil {
+		log.Println("err in coversion:", err)
+		return 0.0, &errorhandling.RequestError{Context: string(body), Code: errorhandling.Internal, Message: err.Error()}
+	}
+	return super, nil
 }
+
+// func GetAll(c *gin.Context) {
+// 	emps, err := Repo.GetAllEmployees()
+// 	if err != nil {
+// 		c.JSON(int(errorhandling.BadRequest), err)
+// 		return
+// 	}
+// 	c.JSON(http.StatusOK, emps)
+// }
+
+// func Find(c *gin.Context) {
+// 	id := c.Params.ByName("id")
+// 	emp, err := Repo.GetEmployeeById(id)
+// 	if err != nil {
+// 		c.JSON(int(errorhandling.NotFound), errorhandling.WrapError("mysql.GetEmployeeById", errorhandling.NotFound, err.Error()))
+// 		return
+// 	}
+// 	c.JSON(http.StatusOK, emp)
+// }
 
 func Create(c *gin.Context) {
 	var emp data.Employee
