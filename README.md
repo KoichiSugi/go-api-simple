@@ -7,11 +7,12 @@ Technology stack below is in use:
 * Go
 * MySQL
 * REST APIs
+* Mountebank 
 
 ## Usage
 
 
-## Sending REST Request
+## Sending REST Requests
 
 #GET all employees
 ```
@@ -39,6 +40,14 @@ http://localhost:8080/employee/:id
 ```
 
 
+## Mountebank for stubbing/mocking endpoints with varing condtions
+To get employees' super balance, an external api is called.
+You need to run both the main app and mountebank to demonstrate a proper response from endpoints 
+
+#Run Mountebank config file
+```
+mb --configfile imposter.json
+```
 
 Run the following command in a terminal environment:
 ```
