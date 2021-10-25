@@ -49,7 +49,7 @@ You need to run both the main app and mountebank to demonstrate a proper respons
 mb --configfile imposter.json
 ```
 
-# Run the following command in a terminal environment:
+## Run the following command in a terminal environment:
 ```
 run main.go
 
