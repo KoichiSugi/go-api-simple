@@ -7,6 +7,7 @@ import (
 	"git-clones/go-api-simple/errorhandling"
 	"git-clones/go-api-simple/mysql"
 	"git-clones/go-api-simple/repository"
+	"git-clones/go-api-simple/routes/middlewares"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -28,15 +29,6 @@ func init() {
 	Repo = repo
 }
 
-type rootHandler func(http.ResponseWriter, *http.Request) error
-
-func (fn rootHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	err := fn(w, r) //call root handler
-	if err != nil {
-		return
-	}
-}
-
 func GetMySqlRepo() repository.Repository {
 	return Repo
 }
@@ -44,10 +36,11 @@ func GetMySqlRepo() repository.Repository {
 func SetUpRouter(repo repository.Repository) *gin.Engine {
 	log.Println("test repo:", repo)
 	router := gin.Default()
+	middlewares.OutputLog()          //output logs
+	router.Use(middlewares.Logger()) //call middleware
 	group1 := router.Group("/employees")
 	{
 		group1.GET("/", func(c *gin.Context) {
-			//GetAll(ctx)
 			FindAll(c)
 		})
 		group1.GET("/:id", func(c *gin.Context) {

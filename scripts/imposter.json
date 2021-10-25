@@ -139,6 +139,32 @@
           }
         }
       ]
+    },{
+      "predicates": [
+        {
+          "equals": {"path":"/ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance"}
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 200,
+            "headers": {
+              "Content-Type": "application/xml"
+            },
+            "body": "300"
+          }
+        },
+        {
+          "is": {
+            "statusCode": 200,
+            "headers": {
+              "Content-Type": "application/xml"
+            },
+            "body": "0"
+          }
+        }
+      ]
     }
   ]
 }

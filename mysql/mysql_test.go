@@ -5,6 +5,7 @@ import (
 	"git-clones/go-api-simple/data"
 	"git-clones/go-api-simple/mysql"
 	"log"
+	"regexp"
 	"testing"
 	"time"
 
@@ -126,12 +127,15 @@ func TestCreateEmployee(t *testing.T) { //error
 	defer func() {
 		repo.Close()
 	}()
-	mock.MatchExpectationsInOrder(false)
-	query := "INSERT INTO employee"
-	//mock.ExpectExec(query).WithArgs().WillReturnResult(sqlmock.NewResult(0, 1))
-	//mock.ExpectQuery(query).WithArgs(u.Id, u.FirstName, u.MiddleName, u.LastName, u.Gender, u.Salary, mockDOB, u.Email, u.Phone, u.State, u.Postcode, u.AddressLine1, u.AddressLine2, u.TFN, u.SuperBalance).WillReturnRows(rows)
-	prep := mock.ExpectPrepare(query)
-	prep.ExpectExec().WithArgs().WillReturnResult(sqlmock.NewResult(0, 1))
+
+	//query := "INSERT INTO employee"
+	// mock.MatchExpectationsInOrder(false)
+
+	query := "INSERT INTO employee (id,first_name ,middle_name ,last_name ,gender ,salary ,dob ,email , phone , state ,postcode, address_line1 ,address_line2, tfn, super_balance) VALUES ($,$,$,$,$,$,$,$,$,$,$,$,$,$,$)"
+	prep := mock.ExpectPrepare(regexp.QuoteMeta(query))
+	//prep := mock.ExpectPrepare(query)
+	prep.ExpectExec().WithArgs(u2.Id, u2.FirstName, u2.MiddleName, u2.LastName, u2.Gender, u2.Salary, u2.DOB, u2.Email, u2.Phone, u2.State, u2.Postcode, u2.AddressLine1, u2.AddressLine2, u2.TFN, u2.SuperBalance).WillReturnResult(sqlmock.NewResult(1, 1))
+
 	emp, err := repo.CreateEmployee(u2)
 	log.Println(emp)
 	assert.NoError(t, err)
