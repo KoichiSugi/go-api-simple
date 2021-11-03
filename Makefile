@@ -1,0 +1,1 @@
+run: mb --configfile imposter.json && go run main.go

@@ -1,11 +1,11 @@
 [GIN-debug] GET    /employees/               --> git-clones/go-api-simple/routes.SetUpRouter.func1 (4 handlers)
 [GIN-debug] GET    /employees/:id            --> git-clones/go-api-simple/routes.SetUpRouter.func2 (4 handlers)
-[GIN-debug] POST   /employees/               --> git-clones/go-api-simple/routes.SetUpRouter.func3 (4 handlers)
-[GIN-debug] DELETE /employees/:id            --> git-clones/go-api-simple/routes.SetUpRouter.func4 (4 handlers)
-[GIN-debug] PUT    /employees/:id            --> git-clones/go-api-simple/routes.SetUpRouter.func5 (4 handlers)
+[GIN-debug] POST   /employees/               --> git-clones/go-api-simple/routes.Create (5 handlers)
+[GIN-debug] DELETE /employees/:id            --> git-clones/go-api-simple/routes.SetUpRouter.func3 (4 handlers)
+[GIN-debug] PUT    /employees/:id            --> git-clones/go-api-simple/routes.SetUpRouter.func4 (4 handlers)
 [GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
 Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
 [GIN-debug] Environment variable PORT is undefined. Using port :8080 by default
 [GIN-debug] Listening and serving HTTP on :8080
 [GIN-debug] redirecting request 307: /employees/ --> /employees/
-[Custom Log] Client IP: ::1 - TimeStamp: [25 Oct 21 13:23 AEDT] Method: POST Path: /employees/ Status Code: 201 
+[Custom Log] Client IP: ::1 - TimeStamp: [03 Nov 21 18:46 AEDT] Method: POST Path: /employees/ Status Code: 201 

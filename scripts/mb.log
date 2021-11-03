@@ -1,116 +1,89 @@
-{"level":"info","message":"[mb:2525] mountebank v2.5.0 now taking orders - point your browser to http://localhost:2525/ for help","timestamp":"2021-10-24T22:52:10.593Z"}
-{"level":"info","message":"[mb:2525] PUT /imposters","timestamp":"2021-10-24T22:52:10.656Z"}
-{"level":"info","message":"[http:3000] Open for business...","timestamp":"2021-10-24T22:52:10.685Z"}
-{"level":"info","message":"[http:3000] ::1:51457 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-10-24T22:52:59.150Z"}
-{"level":"info","message":"[http:3000] ::1:51458 => GET /ato/employee/a/balance","timestamp":"2021-10-24T22:52:59.160Z"}
-{"level":"info","message":"[http:3000] ::1:51460 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-24T22:52:59.163Z"}
-{"level":"info","message":"[http:3000] ::1:51459 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-10-24T22:52:59.165Z"}
-{"level":"info","message":"[http:3000] ::1:51463 => GET /ato/employee/a/balance","timestamp":"2021-10-24T22:53:14.843Z"}
-{"level":"info","message":"[http:3000] ::1:51467 => GET /ato/employee/a/balance","timestamp":"2021-10-24T22:53:49.636Z"}
-{"level":"info","message":"[http:3000] ::1:51468 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-10-24T22:53:49.641Z"}
-{"level":"info","message":"[http:3000] ::1:51469 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-24T22:53:49.644Z"}
-{"level":"info","message":"[http:3000] ::1:51470 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-10-24T22:53:49.646Z"}
-{"level":"info","message":"[http:3000] ::1:51471 => GET /ato/employee/b/balance","timestamp":"2021-10-24T22:54:01.162Z"}
-{"level":"info","message":"[http:3000] ::1:51483 => GET /ato/employee/b/balance","timestamp":"2021-10-24T22:55:36.833Z"}
-{"level":"info","message":"[http:3000] ::1:51485 => GET /ato/employee/b/balance","timestamp":"2021-10-24T22:55:48.221Z"}
-{"level":"info","message":"[http:3000] ::1:65498 => GET /ato/employee/b/balance","timestamp":"2021-10-24T23:17:25.181Z"}
-{"level":"info","message":"[http:3000] ::1:65501 => GET /ato/employee/b/balance","timestamp":"2021-10-24T23:17:31.639Z"}
-{"level":"info","message":"[http:3000] ::1:65520 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-10-24T23:21:58.109Z"}
-{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-10-24T23:21:58.111Z"}
-{"level":"info","message":"[http:3000] ::1:65519 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-24T23:21:58.115Z"}
-{"level":"info","message":"[http:3000] ::1:65521 => GET /ato/employee/a/balance","timestamp":"2021-10-24T23:21:58.119Z"}
-{"level":"info","message":"[http:3000] ::1:65522 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-10-24T23:21:58.125Z"}
-{"level":"info","message":"[http:3000] ::1:65523 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-10-24T23:21:58.127Z"}
-{"level":"info","message":"[http:3000] ::1:52094 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-10-25T00:35:05.079Z"}
-{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-10-25T00:35:05.085Z"}
-{"level":"info","message":"[http:3000] ::1:52095 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-10-25T00:35:05.089Z"}
-{"level":"info","message":"[http:3000] ::1:52096 => GET /ato/employee/a/balance","timestamp":"2021-10-25T00:35:05.094Z"}
-{"level":"info","message":"[http:3000] ::1:52097 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-25T00:35:05.098Z"}
-{"level":"info","message":"[http:3000] ::1:52098 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-10-25T00:35:05.101Z"}
-{"level":"info","message":"[http:3000] ::1:52103 => GET /ato/employee/a/balance","timestamp":"2021-10-25T00:35:21.798Z"}
-{"level":"info","message":"[http:3000] ::1:52102 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-10-25T00:35:21.803Z"}
-{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-10-25T00:35:21.807Z"}
-{"level":"info","message":"[http:3000] ::1:52104 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-10-25T00:35:21.810Z"}
-{"level":"info","message":"[http:3000] ::1:52105 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-25T00:35:21.813Z"}
-{"level":"info","message":"[http:3000] ::1:52106 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-10-25T00:35:21.818Z"}
-{"level":"info","message":"[http:3000] ::1:52110 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-25T00:36:27.942Z"}
-{"level":"info","message":"[http:3000] ::1:52111 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-25T00:36:33.396Z"}
-{"level":"info","message":"[http:3000] ::1:52119 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-25T00:37:17.232Z"}
-{"level":"info","message":"[http:3000] ::1:52120 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-25T00:37:22.004Z"}
-{"level":"info","message":"[http:3000] ::1:52167 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-25T00:42:17.176Z"}
-{"level":"info","message":"[http:3000] ::1:52168 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-25T00:42:18.940Z"}
-{"level":"info","message":"[http:3000] ::1:52236 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-25T00:50:56.459Z"}
-{"level":"info","message":"[http:3000] ::1:52239 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-25T00:51:13.906Z"}
-{"level":"info","message":"[http:3000] ::1:52241 => GET /ato/employee/a/balance","timestamp":"2021-10-25T00:51:30.894Z"}
-{"level":"info","message":"[http:3000] ::1:52242 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-25T00:51:30.906Z"}
-{"level":"info","message":"[http:3000] ::1:52243 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-10-25T00:51:30.908Z"}
-{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-10-25T00:51:30.910Z"}
-{"level":"info","message":"[http:3000] ::1:52244 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-10-25T00:51:30.912Z"}
-{"level":"info","message":"[http:3000] ::1:52245 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-10-25T00:51:30.914Z"}
-{"level":"info","message":"[http:3000] ::1:64745 => GET /ato/employee/a/balance","timestamp":"2021-10-25T00:53:26.284Z"}
-{"level":"info","message":"[http:3000] ::1:64744 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-25T00:53:26.290Z"}
-{"level":"info","message":"[http:3000] ::1:64746 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-10-25T00:53:26.291Z"}
-{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-10-25T00:53:26.293Z"}
-{"level":"info","message":"[http:3000] ::1:64747 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-10-25T00:53:26.295Z"}
-{"level":"info","message":"[http:3000] ::1:64748 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-10-25T00:53:26.296Z"}
-{"level":"info","message":"[http:3000] ::1:64752 => GET /ato/employee/a/balance","timestamp":"2021-10-25T00:53:43.356Z"}
-{"level":"info","message":"[http:3000] ::1:64753 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-25T00:53:43.359Z"}
-{"level":"info","message":"[http:3000] ::1:64754 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-10-25T00:53:43.360Z"}
-{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-10-25T00:53:43.362Z"}
-{"level":"info","message":"[http:3000] ::1:64755 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-10-25T00:53:43.365Z"}
-{"level":"info","message":"[http:3000] ::1:64756 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-10-25T00:53:43.368Z"}
-{"level":"info","message":"[http:3000] ::1:64769 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-10-25T00:55:18.146Z"}
-{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-10-25T00:55:18.148Z"}
-{"level":"info","message":"[http:3000] ::1:64768 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-10-25T00:55:18.150Z"}
-{"level":"info","message":"[http:3000] ::1:64770 => GET /ato/employee/a/balance","timestamp":"2021-10-25T00:55:18.152Z"}
-{"level":"info","message":"[http:3000] ::1:64771 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-10-25T00:55:18.156Z"}
-{"level":"info","message":"[http:3000] ::1:64772 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-25T00:55:18.159Z"}
-{"level":"info","message":"[http:3000] ::1:64786 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-10-25T00:56:05.849Z"}
-{"level":"info","message":"[http:3000] ::1:64785 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-25T00:56:05.853Z"}
-{"level":"info","message":"[http:3000] ::1:64787 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-10-25T00:56:05.858Z"}
-{"level":"info","message":"[http:3000] ::1:64788 => GET /ato/employee/a/balance","timestamp":"2021-10-25T00:56:05.860Z"}
-{"level":"info","message":"[http:3000] ::1:64789 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-10-25T00:56:05.864Z"}
-{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-10-25T00:56:05.866Z"}
-{"level":"info","message":"[http:3000] ::1:64794 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-10-25T00:56:19.597Z"}
-{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-10-25T00:56:19.599Z"}
-{"level":"info","message":"[http:3000] ::1:64793 => GET /ato/employee/a/balance","timestamp":"2021-10-25T00:56:19.600Z"}
-{"level":"info","message":"[http:3000] ::1:64795 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-10-25T00:56:19.603Z"}
-{"level":"info","message":"[http:3000] ::1:64796 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-10-25T00:56:19.606Z"}
-{"level":"info","message":"[http:3000] ::1:64797 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-25T00:56:19.607Z"}
-{"level":"info","message":"[http:3000] ::1:64903 => GET /ato/employee/a/balance","timestamp":"2021-10-25T01:12:12.759Z"}
-{"level":"info","message":"[http:3000] ::1:64904 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-10-25T01:12:12.761Z"}
-{"level":"info","message":"[http:3000] ::1:64902 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-10-25T01:12:12.763Z"}
-{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-10-25T01:12:12.766Z"}
-{"level":"info","message":"[http:3000] ::1:64905 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-25T01:12:12.769Z"}
-{"level":"info","message":"[http:3000] ::1:64906 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-10-25T01:12:12.772Z"}
-{"level":"info","message":"[http:3000] ::1:64909 => GET /ato/employee/a/balance","timestamp":"2021-10-25T01:12:37.899Z"}
-{"level":"info","message":"[http:3000] ::1:64910 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-10-25T01:12:37.904Z"}
-{"level":"info","message":"[http:3000] ::1:64911 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-10-25T01:12:37.906Z"}
-{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-10-25T01:12:37.908Z"}
-{"level":"info","message":"[http:3000] ::1:64912 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-10-25T01:12:37.909Z"}
-{"level":"info","message":"[http:3000] ::1:64913 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-25T01:12:37.911Z"}
-{"level":"info","message":"[http:3000] ::1:64920 => GET /ato/employee/a/balance","timestamp":"2021-10-25T01:13:12.283Z"}
-{"level":"info","message":"[http:3000] ::1:64921 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-25T01:13:12.286Z"}
-{"level":"info","message":"[http:3000] ::1:64922 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-10-25T01:13:12.287Z"}
-{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-10-25T01:13:12.294Z"}
-{"level":"info","message":"[http:3000] ::1:64923 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-10-25T01:13:12.299Z"}
-{"level":"info","message":"[http:3000] ::1:64924 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-10-25T01:13:12.302Z"}
-{"level":"info","message":"[http:3000] ::1:65039 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-25T01:14:49.912Z"}
-{"level":"info","message":"[http:3000] ::1:65040 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-10-25T01:14:49.915Z"}
-{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-10-25T01:14:49.917Z"}
-{"level":"info","message":"[http:3000] ::1:65041 => GET /ato/employee/a/balance","timestamp":"2021-10-25T01:14:49.918Z"}
-{"level":"info","message":"[http:3000] ::1:65042 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-10-25T01:14:49.920Z"}
-{"level":"info","message":"[http:3000] ::1:65043 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-10-25T01:14:49.922Z"}
-{"level":"info","message":"[http:3000] ::1:65045 => GET /ato/employee/a/balance","timestamp":"2021-10-25T01:15:00.143Z"}
-{"level":"info","message":"[http:3000] ::1:65046 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-10-25T01:15:00.148Z"}
-{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-10-25T01:15:00.152Z"}
-{"level":"info","message":"[http:3000] ::1:65044 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-10-25T01:15:00.153Z"}
-{"level":"info","message":"[http:3000] ::1:65047 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-25T01:15:00.157Z"}
-{"level":"info","message":"[http:3000] ::1:65048 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-10-25T01:15:00.159Z"}
-{"level":"info","message":"[http:3000] ::1:60007 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-10-25T02:18:44.505Z"}
-{"level":"info","message":"[http:3000] ::1:60010 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-10-25T02:18:44.512Z"}
-{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-10-25T02:18:44.514Z"}
-{"level":"info","message":"[http:3000] ::1:60008 => GET /ato/employee/a/balance","timestamp":"2021-10-25T02:18:44.519Z"}
-{"level":"info","message":"[http:3000] ::1:60009 => GET /ato/employee/b/balance","timestamp":"2021-10-25T02:18:44.525Z"}
-{"level":"info","message":"[http:3000] ::1:60011 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-10-25T02:18:44.528Z"}
-{"level":"info","message":"[http:3000] ::1:60012 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-25T02:18:44.530Z"}
+{"level":"info","message":"[mb:2525] mountebank v2.5.0 now taking orders - point your browser to http://localhost:2525/ for help","timestamp":"2021-11-03T06:36:02.464Z"}
+{"level":"info","message":"[mb:2525] PUT /imposters","timestamp":"2021-11-03T06:36:02.551Z"}
+{"level":"info","message":"[http:3000] Open for business...","timestamp":"2021-11-03T06:36:02.579Z"}
+{"level":"info","message":"[http:3000] ::1:63556 => GET /ato/employee/b/balance","timestamp":"2021-11-03T06:37:35.016Z"}
+{"level":"info","message":"[http:3000] ::1:63557 => GET /ato/employee/2a398f3b-80d9-4a41-bf34-0c5924fcc134/balance","timestamp":"2021-11-03T06:37:35.030Z"}
+{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-11-03T06:37:35.034Z"}
+{"level":"info","message":"[http:3000] ::1:63558 => GET /ato/employee/335d2e64-fefa-47c8-b222-ddfe43707159/balance","timestamp":"2021-11-03T06:37:35.038Z"}
+{"level":"info","message":"[http:3000] ::1:63559 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-11-03T06:37:35.042Z"}
+{"level":"info","message":"[http:3000] ::1:63560 => GET /ato/employee/4deaf698-f3bc-4f57-bfdb-b6d02093c7cd/balance","timestamp":"2021-11-03T06:37:35.044Z"}
+{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-11-03T06:37:35.050Z"}
+{"level":"info","message":"[http:3000] ::1:63562 => GET /ato/employee/9d486316-cc16-40e3-b0e0-fd98d54952ba/balance","timestamp":"2021-11-03T06:37:35.052Z"}
+{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-11-03T06:37:35.055Z"}
+{"level":"info","message":"[http:3000] ::1:63561 => GET /ato/employee/a/balance","timestamp":"2021-11-03T06:37:35.057Z"}
+{"level":"info","message":"[http:3000] ::1:63563 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-11-03T06:37:35.059Z"}
+{"level":"info","message":"[http:3000] ::1:63564 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-11-03T06:37:35.062Z"}
+{"level":"info","message":"[http:3000] ::1:63565 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-11-03T06:37:35.064Z"}
+{"level":"info","message":"[http:3000] ::1:63668 => GET /ato/employee/335d2e64-fefa-47c8-b222-ddfe43707159/balance","timestamp":"2021-11-03T06:53:39.587Z"}
+{"level":"info","message":"[http:3000] ::1:63670 => GET /ato/employee/2a398f3b-80d9-4a41-bf34-0c5924fcc134/balance","timestamp":"2021-11-03T06:53:39.595Z"}
+{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-11-03T06:53:39.597Z"}
+{"level":"info","message":"[http:3000] ::1:63667 => GET /ato/employee/9d486316-cc16-40e3-b0e0-fd98d54952ba/balance","timestamp":"2021-11-03T06:53:39.599Z"}
+{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-11-03T06:53:39.602Z"}
+{"level":"info","message":"[http:3000] ::1:63669 => GET /ato/employee/b/balance","timestamp":"2021-11-03T06:53:39.604Z"}
+{"level":"info","message":"[http:3000] ::1:63671 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-11-03T06:53:39.608Z"}
+{"level":"info","message":"[http:3000] ::1:63672 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-11-03T06:53:39.611Z"}
+{"level":"info","message":"[http:3000] ::1:63673 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-11-03T06:53:39.612Z"}
+{"level":"info","message":"[http:3000] ::1:63674 => GET /ato/employee/a/balance","timestamp":"2021-11-03T06:53:39.619Z"}
+{"level":"info","message":"[http:3000] ::1:63675 => GET /ato/employee/4deaf698-f3bc-4f57-bfdb-b6d02093c7cd/balance","timestamp":"2021-11-03T06:53:39.622Z"}
+{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-11-03T06:53:39.627Z"}
+{"level":"info","message":"[http:3000] ::1:63676 => GET /ato/employee/35587d33-1406-4af4-a4fd-7a4e0138fd5f/balance","timestamp":"2021-11-03T06:53:39.628Z"}
+{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-11-03T06:53:39.631Z"}
+{"level":"info","message":"[http:3000] ::1:63677 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-11-03T06:53:39.632Z"}
+{"level":"info","message":"[http:3000] ::1:63682 => GET /ato/employee/b/balance","timestamp":"2021-11-03T06:54:31.579Z"}
+{"level":"info","message":"[http:3000] ::1:63681 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-11-03T06:54:31.585Z"}
+{"level":"info","message":"[http:3000] ::1:63683 => GET /ato/employee/335d2e64-fefa-47c8-b222-ddfe43707159/balance","timestamp":"2021-11-03T06:54:31.586Z"}
+{"level":"info","message":"[http:3000] ::1:63684 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-11-03T06:54:31.589Z"}
+{"level":"info","message":"[http:3000] ::1:63685 => GET /ato/employee/4deaf698-f3bc-4f57-bfdb-b6d02093c7cd/balance","timestamp":"2021-11-03T06:54:31.592Z"}
+{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-11-03T06:54:31.594Z"}
+{"level":"info","message":"[http:3000] ::1:63686 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-11-03T06:54:31.595Z"}
+{"level":"info","message":"[http:3000] ::1:63687 => GET /ato/employee/a/balance","timestamp":"2021-11-03T06:54:31.598Z"}
+{"level":"info","message":"[http:3000] ::1:63688 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-11-03T06:54:31.600Z"}
+{"level":"info","message":"[http:3000] ::1:63689 => GET /ato/employee/9d486316-cc16-40e3-b0e0-fd98d54952ba/balance","timestamp":"2021-11-03T06:54:31.602Z"}
+{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-11-03T06:54:31.604Z"}
+{"level":"info","message":"[http:3000] ::1:63690 => GET /ato/employee/2a398f3b-80d9-4a41-bf34-0c5924fcc134/balance","timestamp":"2021-11-03T06:54:31.605Z"}
+{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-11-03T06:54:31.608Z"}
+{"level":"info","message":"[http:3000] ::1:63710 => GET /ato/employee/335d2e64-fefa-47c8-b222-ddfe43707159/balance","timestamp":"2021-11-03T06:57:50.713Z"}
+{"level":"info","message":"[http:3000] ::1:63709 => GET /ato/employee/b/balance","timestamp":"2021-11-03T06:57:50.716Z"}
+{"level":"info","message":"[http:3000] ::1:63711 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-11-03T06:57:50.719Z"}
+{"level":"info","message":"[http:3000] ::1:63708 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-11-03T06:57:50.721Z"}
+{"level":"info","message":"[http:3000] ::1:63713 => GET /ato/employee/4deaf698-f3bc-4f57-bfdb-b6d02093c7cd/balance","timestamp":"2021-11-03T06:57:50.724Z"}
+{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-11-03T06:57:50.727Z"}
+{"level":"info","message":"[http:3000] ::1:63712 => GET /ato/employee/9d486316-cc16-40e3-b0e0-fd98d54952ba/balance","timestamp":"2021-11-03T06:57:50.729Z"}
+{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-11-03T06:57:50.732Z"}
+{"level":"info","message":"[http:3000] ::1:63714 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-11-03T06:57:50.733Z"}
+{"level":"info","message":"[http:3000] ::1:63715 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-11-03T06:57:50.738Z"}
+{"level":"info","message":"[http:3000] ::1:63716 => GET /ato/employee/a/balance","timestamp":"2021-11-03T06:57:50.741Z"}
+{"level":"info","message":"[http:3000] ::1:63812 => GET /ato/employee/4deaf698-f3bc-4f57-bfdb-b6d02093c7cd/balance","timestamp":"2021-11-03T07:06:11.137Z"}
+{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-11-03T07:06:11.140Z"}
+{"level":"info","message":"[http:3000] ::1:63813 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-11-03T07:06:11.142Z"}
+{"level":"info","message":"[http:3000] ::1:63814 => GET /ato/employee/b/balance","timestamp":"2021-11-03T07:06:11.144Z"}
+{"level":"info","message":"[http:3000] ::1:63815 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-11-03T07:06:11.146Z"}
+{"level":"info","message":"[http:3000] ::1:63816 => GET /ato/employee/9d486316-cc16-40e3-b0e0-fd98d54952ba/balance","timestamp":"2021-11-03T07:06:11.149Z"}
+{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-11-03T07:06:11.153Z"}
+{"level":"info","message":"[http:3000] ::1:63817 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-11-03T07:06:11.156Z"}
+{"level":"info","message":"[http:3000] ::1:63818 => GET /ato/employee/335d2e64-fefa-47c8-b222-ddfe43707159/balance","timestamp":"2021-11-03T07:06:11.158Z"}
+{"level":"info","message":"[http:3000] ::1:63819 => GET /ato/employee/a/balance","timestamp":"2021-11-03T07:06:11.161Z"}
+{"level":"info","message":"[http:3000] ::1:63820 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-11-03T07:06:11.164Z"}
+{"level":"info","message":"[http:3000] ::1:63825 => GET /ato/employee/b/balance","timestamp":"2021-11-03T07:07:09.741Z"}
+{"level":"info","message":"[http:3000] ::1:63826 => GET /ato/employee/335d2e64-fefa-47c8-b222-ddfe43707159/balance","timestamp":"2021-11-03T07:07:09.750Z"}
+{"level":"info","message":"[http:3000] ::1:63827 => GET /ato/employee/9d486316-cc16-40e3-b0e0-fd98d54952ba/balance","timestamp":"2021-11-03T07:07:09.754Z"}
+{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-11-03T07:07:09.758Z"}
+{"level":"info","message":"[http:3000] ::1:63828 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-11-03T07:07:09.759Z"}
+{"level":"info","message":"[http:3000] ::1:63829 => GET /ato/employee/a/balance","timestamp":"2021-11-03T07:07:09.763Z"}
+{"level":"info","message":"[http:3000] ::1:63830 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-11-03T07:07:09.766Z"}
+{"level":"info","message":"[http:3000] ::1:63831 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-11-03T07:07:09.769Z"}
+{"level":"info","message":"[http:3000] ::1:63832 => GET /ato/employee/4deaf698-f3bc-4f57-bfdb-b6d02093c7cd/balance","timestamp":"2021-11-03T07:07:09.770Z"}
+{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-11-03T07:07:09.772Z"}
+{"level":"info","message":"[http:3000] ::1:63842 => GET /ato/employee/335d2e64-fefa-47c8-b222-ddfe43707159/balance","timestamp":"2021-11-03T07:08:27.242Z"}
+{"level":"info","message":"[http:3000] ::1:63841 => GET /ato/employee/b/balance","timestamp":"2021-11-03T07:08:27.245Z"}
+{"level":"info","message":"[http:3000] ::1:63844 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-11-03T07:08:27.251Z"}
+{"level":"info","message":"[http:3000] ::1:63843 => GET /ato/employee/4aa87dba-04f1-4d60-bfe3-665a00b76818/balance","timestamp":"2021-11-03T07:08:27.254Z"}
+{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-11-03T07:08:27.256Z"}
+{"level":"info","message":"[http:3000] ::1:63845 => GET /ato/employee/4deaf698-f3bc-4f57-bfdb-b6d02093c7cd/balance","timestamp":"2021-11-03T07:08:27.257Z"}
+{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-11-03T07:08:27.259Z"}
+{"level":"info","message":"[http:3000] ::1:63846 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-11-03T07:08:27.260Z"}
+{"level":"info","message":"[http:3000] ::1:63847 => GET /ato/employee/9d486316-cc16-40e3-b0e0-fd98d54952ba/balance","timestamp":"2021-11-03T07:08:27.262Z"}
+{"level":"info","message":"[http:3000] no predicate match, using default response","timestamp":"2021-11-03T07:08:27.264Z"}
+{"level":"info","message":"[http:3000] ::1:63848 => GET /ato/employee/a/balance","timestamp":"2021-11-03T07:08:27.266Z"}
+{"level":"info","message":"[http:3000] ::1:63849 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-11-03T07:08:27.269Z"}
+{"level":"info","message":"[mb:2525] Adios - see you soon?","timestamp":"2021-11-03T07:28:11.972Z"}
