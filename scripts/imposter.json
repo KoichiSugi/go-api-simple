@@ -13,18 +13,20 @@
             "statusCode": 200,
             "headers": {
               "Location": "http://localhost:3000/ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance",
-              "Content-Type": "application/xml"
+              "Content-Type": "application/json"
             },
-            "body": "400000"
+            "body": { "employeeId":"4b7d1dc9-fd21-42e6-b089-e727fca4864d",
+                      "superBalance": 40.0
+                    }
           }
         },
         {
           "is": {
-            "statusCode": 400,
+            "statusCode": 404,
             "headers": {
-              "Content-Type": "application/xml"
+              "Content-Type": "application/json"
             },
-            "body": "<error>0</error>"
+            "body": {"error": "value not available"}
           }
         }
       ]
@@ -41,18 +43,20 @@
             "statusCode": 200,
             "headers": {
               "Location": "http://localhost:3000/ato/employee/1234",
-              "Content-Type": "application/xml"
+              "Content-Type": "application/json"
             },
-            "body": "40000"
+            "body": { "employeeId":"5658e572-c8e5-49de-9baa-c46e17ef527a",
+                      "superBalance": 40000.0
+            }
           }
         },
         {
           "is": {
-            "statusCode": 400,
+            "statusCode": 404,
             "headers": {
-              "Content-Type": "application/xml"
+              "Content-Type": "application/json"
             },
-            "body": "<error>0</error>"
+            "body": {"error": "value not available"}
           }
         }
       ]
@@ -69,22 +73,99 @@
             "statusCode": 200,
             "headers": {
               "Location": "http://localhost:3000/ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance",
-              "Content-Type": "application/xml"
+              "Content-Type": "application/json"
             },
-            "body": "400000"
+            "body": { "employeeId":"820d52c7-2af3-4909-9716-2933c4d3d2c1",
+                      "superBalance": 5000.0
+    }
           }
         },
         {
           "is": {
-            "statusCode": 400,
+            "statusCode": 404,
             "headers": {
-              "Content-Type": "application/xml"
+              "Content-Type": "application/json"
             },
-            "body": "<error>0</error>"
+            "body": {"error": "value not available"}
           }
         }
       ]
     },
+   
+    {
+      "predicates": [
+        {
+          "equals": {"path":"/ato/employee/a/balance"}
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 404,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": {"error": "value not available"}
+          }
+        }
+      ]
+    },
+    {
+      "predicates": [
+        {
+          "equals": {"path":"/ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance"}
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 200,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": { "employeeId":"50ccf5d6-2056-4e0c-a160-4e51638410c7",
+                      "superBalance":300.0}
+          }
+        },
+        {
+          "is": {
+            "statusCode": 404,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": {"error": "value not available"}
+          }
+        }
+      ]
+    },{
+      "predicates": [
+        {
+          "equals": {"path":"/ato/employee/335d2e64-fefa-47c8-b222-ddfe43707159/balance"}
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 200,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": { "employeeId":"335d2e64-fefa-47c8-b222-ddfe43707159",
+                      "superBalance":4500.0
+                    }
+          }
+        },
+        {
+          "is": {
+            "statusCode": 404,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": {"error": "value not available"}
+          }
+        }
+      ]
+    }, 
     {
       "predicates": [
         {
@@ -96,46 +177,19 @@
           "is": {
             "statusCode": 200,
             "headers": {
-              "Location": "http://localhost:3000/ato/employee/b/balance",
-              "Content-Type": "application/xml"
+              "Content-Type": "application/json"
             },
-            "body": "40000"
+            "body": { "employeeId":"b",
+                      "superBalance": 2500.0}
           }
         },
         {
           "is": {
-            "statusCode": 400,
+            "statusCode": 404,
             "headers": {
-              "Content-Type": "application/xml"
+              "Content-Type": "application/json"
             },
-            "body": "<error>0</error>"
-          }
-        }
-      ]
-    },
-    {
-      "predicates": [
-        {
-          "equals": {"path":"/ato/employee/a/balance"}
-        }
-      ],
-      "responses": [
-        {
-          "is": {
-            "statusCode": 200,
-            "headers": {
-              "Content-Type": "application/xml"
-            },
-            "body": "1000"
-          }
-        },
-        {
-          "is": {
-            "statusCode": 200,
-            "headers": {
-              "Content-Type": "application/xml"
-            },
-            "body": "0"
+            "body": {"error": "value not available"}
           }
         }
       ]

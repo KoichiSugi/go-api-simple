@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -49,6 +50,23 @@ var u2 = data.Employee{
 	AddressLine2: "JPN",
 	TFN:          "19944991",
 	SuperBalance: 100.0,
+}
+var emp = data.Employee{
+	Id:           uuid.New().String(),
+	FirstName:    "Vinodh",
+	MiddleName:   "K",
+	LastName:     "Landa",
+	Gender:       "Male",
+	Salary:       555.55,
+	DOB:          data.CustomDOB(mockDOB),
+	Email:        "vinod@gmail.com",
+	Phone:        "01298384",
+	AddressLine1: "Lonsdale",
+	AddressLine2: "street",
+	State:        "vic",
+	Postcode:     3000,
+	TFN:          "19944991",
+	SuperBalance: 4645,
 }
 
 func NewMock() (*sql.DB, sqlmock.Sqlmock) {
@@ -123,17 +141,15 @@ func TestGetEmployeeByIdFailure(t *testing.T) {
 func TestCreateEmployee(t *testing.T) { //error
 	db, mock := NewMock()
 	repo := &mysql.MysqlRepo{db}
-	defer func() {
-		repo.Close()
-	}()
-	mock.MatchExpectationsInOrder(false)
+	defer repo.Close()
 	query := "INSERT INTO employee"
-	//mock.ExpectExec(query).WithArgs().WillReturnResult(sqlmock.NewResult(0, 1))
-	//mock.ExpectQuery(query).WithArgs(u.Id, u.FirstName, u.MiddleName, u.LastName, u.Gender, u.Salary, mockDOB, u.Email, u.Phone, u.State, u.Postcode, u.AddressLine1, u.AddressLine2, u.TFN, u.SuperBalance).WillReturnRows(rows)
-	prep := mock.ExpectPrepare(query)
-	prep.ExpectExec().WithArgs().WillReturnResult(sqlmock.NewResult(0, 1))
-	emp, err := repo.CreateEmployee(u2)
-	log.Println(emp)
+	mock.MatchExpectationsInOrder(false)
+	mock.ExpectExec(query).WithArgs(emp.Id, emp.FirstName, emp.MiddleName, emp.LastName, emp.Gender, emp.Salary, emp.DOB, emp.Email, emp.Phone,
+		emp.AddressLine1, emp.AddressLine2, emp.State, emp.Postcode, emp.TFN, emp.SuperBalance).WillReturnResult(sqlmock.NewResult(0, 1))
+
+	employee, err := repo.CreateEmployee(emp)
+	assert.NotEmpty(t, employee)
+	log.Println("empl and err values", employee, err)
 	assert.NoError(t, err)
 
 }
@@ -142,19 +158,13 @@ func TestCreateEmployeeFailure(t *testing.T) {
 
 }
 
-func TestDeleteEmployee(t *testing.T) {
-	// db, mock := NewMock()
-	// repo := &mysql.MysqlRepo{db}
-	// defer func() {
-	// 	repo.Close()
-	// }()
-	// sqlmock.NewRows([]string{"Id", "firstname", "middlename", "lastname", "gender", "salary", "dob", "email", "phone", "state", "postcode", "addressline1", "addressline2", "tfn", "superbalance"}).
-	// 	AddRow(u.Id, u.FirstName, u.MiddleName, u.LastName, u.Gender, u.Salary, mockDOB, u.Email, u.Phone, u.State, u.Postcode, u.AddressLine1, u.AddressLine2, u.TFN, u.SuperBalance)
-
-	// query := "DELETE FROM employee WHERE id = ?"
-	// prep := mock.ExpectPrepare(query)
-	// prep.ExpectExec().WithArgs(u.Id).WillReturnResult(sqlmock.NewResult(0, 1))
-
-	// err := repo.DeleteEmployee(u.Id)
-	// /assert.NotEmpty(t, emp)
+func TestDeleteEmployee(t *testing.T) { //error
+	db, mock := NewMock()
+	repo := &mysql.MysqlRepo{db}
+	defer repo.Close()
+	query := "Delete from employee"
+	mock.ExpectExec(query).WithArgs().WillReturnResult(sqlmock.NewResult(0, 1))
+	err := repo.DeleteEmployee(emp.Id)
+	log.Println("The deleted row with no error", err, string(emp.Id))
+	assert.NoError(t, err)
 }

@@ -1,11 +1,17 @@
-{"level":"info","message":"[mb:2525] mountebank v2.5.0 now taking orders - point your browser to http://localhost:2525/ for help","timestamp":"2021-10-22T06:47:04.021Z"}
-{"level":"info","message":"[mb:2525] PUT /imposters","timestamp":"2021-10-22T06:47:04.125Z"}
-{"level":"info","message":"[http:3000] Open for business...","timestamp":"2021-10-22T06:47:04.169Z"}
-{"level":"info","message":"[http:3000] ::1:58256 => GET /ato/employee/a/balance","timestamp":"2021-10-22T06:47:19.108Z"}
-{"level":"info","message":"[http:3000] ::1:59150 => GET /ato/employee/a/balance","timestamp":"2021-10-22T06:47:26.609Z"}
-{"level":"info","message":"[http:3000] ::1:52312 => GET /ato/employee/b/balance","timestamp":"2021-10-22T06:47:36.313Z"}
-{"level":"info","message":"[http:3000] ::1:61305 => GET /ato/employee/b/balance","timestamp":"2021-10-22T06:49:59.934Z"}
-{"level":"info","message":"[http:3000] ::1:61306 => GET /ato/employee/b/balance","timestamp":"2021-10-22T06:50:01.970Z"}
-{"level":"info","message":"[http:3000] ::1:61307 => GET /ato/employee/b/balance","timestamp":"2021-10-22T06:50:03.268Z"}
-{"level":"info","message":"[http:3000] ::1:61308 => GET /ato/employee/b/balance","timestamp":"2021-10-22T06:50:04.298Z"}
-{"level":"info","message":"[mb:2525] Adios - see you soon?","timestamp":"2021-10-22T06:51:43.924Z"}
+{"level":"info","message":"[mb:2525] mountebank v2.5.0 now taking orders - point your browser to http://localhost:2525/ for help","timestamp":"2021-10-27T03:58:03.590Z"}
+{"level":"info","message":"[mb:2525] PUT /imposters","timestamp":"2021-10-27T03:58:03.688Z"}
+{"level":"info","message":"[http:3000] Open for business...","timestamp":"2021-10-27T03:58:03.726Z"}
+{"level":"info","message":"[http:3000] ::1:51300 => GET /ato/employee/335d2e64-fefa-47c8-b222-ddfe43707159/balance","timestamp":"2021-10-27T03:58:32.441Z"}
+{"level":"info","message":"[http:3000] ::1:51301 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-27T03:58:32.459Z"}
+{"level":"info","message":"[http:3000] ::1:51304 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-10-27T03:58:32.465Z"}
+{"level":"info","message":"[http:3000] ::1:51302 => GET /ato/employee/a/balance","timestamp":"2021-10-27T03:58:32.471Z"}
+{"level":"info","message":"[http:3000] ::1:51303 => GET /ato/employee/b/balance","timestamp":"2021-10-27T03:58:32.479Z"}
+{"level":"info","message":"[http:3000] ::1:51305 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-10-27T03:58:32.487Z"}
+{"level":"info","message":"[http:3000] ::1:51306 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-10-27T03:58:32.493Z"}
+{"level":"info","message":"[http:3000] ::1:51308 => GET /ato/employee/50ccf5d6-2056-4e0c-a160-4e51638410c7/balance","timestamp":"2021-10-27T03:58:37.556Z"}
+{"level":"info","message":"[http:3000] ::1:51309 => GET /ato/employee/b/balance","timestamp":"2021-10-27T03:58:37.563Z"}
+{"level":"info","message":"[http:3000] ::1:51310 => GET /ato/employee/5658e572-c8e5-49de-9baa-c46e17ef527a/balance","timestamp":"2021-10-27T03:58:37.568Z"}
+{"level":"info","message":"[http:3000] ::1:51311 => GET /ato/employee/4b7d1dc9-fd21-42e6-b089-e727fca4864d/balance","timestamp":"2021-10-27T03:58:37.571Z"}
+{"level":"info","message":"[http:3000] ::1:51313 => GET /ato/employee/820d52c7-2af3-4909-9716-2933c4d3d2c1/balance","timestamp":"2021-10-27T03:58:37.575Z"}
+{"level":"info","message":"[http:3000] ::1:51312 => GET /ato/employee/335d2e64-fefa-47c8-b222-ddfe43707159/balance","timestamp":"2021-10-27T03:58:37.579Z"}
+{"level":"info","message":"[http:3000] ::1:51314 => GET /ato/employee/a/balance","timestamp":"2021-10-27T03:58:37.590Z"}
