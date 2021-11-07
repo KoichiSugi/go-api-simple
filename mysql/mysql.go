@@ -21,14 +21,14 @@ func (r *MysqlRepo) Close() {
 }
 
 func NewMySQLRepository(dialect string, config mysql.Config, idleConn, maxConn int) (repository.Repository, error) {
-	db, err := sql.Open(dialect, config.FormatDSN())
+	db, err := sql.Open(dialect, "tester:secret@tcp(db:3306)/IGD?parseTime=true")
 	if err != nil {
 		return nil, fmt.Errorf("failed to open sql")
 	}
 
 	err = db.Ping()
 	if err != nil {
-		return nil, fmt.Errorf("ping error")
+		return nil, fmt.Errorf("ping error: %s", err)
 	}
 	db.SetMaxIdleConns(idleConn)
 	db.SetMaxOpenConns(maxConn)
