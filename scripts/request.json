@@ -1,3 +1,4 @@
+[
 {
     "id" :"post",
     "firstname" : "Lofi",
@@ -14,4 +15,39 @@
     "addressline2" : "Cauldfiled East",
     "tfn" : "0721",
     "superbalance" : 1000.00
-}
+},
+    {
+        "id": "50196403-c115-47e2-8df9-2de76b4c6e2d",
+        "firstname": "Pekora",
+        "middlename": "J",
+        "lastname": "Usada",
+        "gender": "Female",
+        "salary": 1050,
+        "dob": "2000-01-02",
+        "email": "rabbit@gmail.com",
+        "phone": "00123",
+        "state": "Vic",
+        "postcode": 3145,
+        "addressline1": "Usada street",
+        "addressline2": "Usagi avenue",
+        "tfn": "1",
+        "superbalance": 1050.00
+    },
+    {
+        "id": "bb28594c-036b-4d62-9504-a181bfd46d9f",
+        "firstname": "Matsuri",
+        "middlename": "!",
+        "lastname": "Natsuiro",
+        "gender": "Female",
+        "salary": 1050,
+        "dob": "2000-01-01",
+        "email": "Natsuiro@gmail.com",
+        "phone": "00099222",
+        "state": "Vic",
+        "postcode": 3145,
+        "addressline1": "ABC Natsuiro street",
+        "addressline2": "Usagi avenue",
+        "tfn": "7",
+        "superbalance": 2000.00
+    }
+]

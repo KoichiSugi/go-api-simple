@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"git-clones/go-api-simple/config"
 	"git-clones/go-api-simple/data"
-	"git-clones/go-api-simple/errorhandling"
+	"git-clones/go-api-simple/errs"
 	"git-clones/go-api-simple/mysql"
 	"git-clones/go-api-simple/repository"
 	"git-clones/go-api-simple/routes/middlewares"
@@ -50,15 +50,16 @@ func PostValidate() gin.HandlerFunc {
 		// Replace the body with a reader that reads from the buffer
 		c.Request.Body = ioutil.NopCloser(bytes.NewReader(bodyData))
 		// validate bodyCopy
-		log.Println("body is copied unmarshalled -> ", emp)
 		v := validator.New()
 		if err = json.Unmarshal(bodyCopy.Bytes(), &emp); err != nil {
+			log.Println(emp)
 			err = v.Struct(emp)
 			for _, e := range err.(validator.ValidationErrors) {
 				log.Println(e)
 			}
-			c.JSON(int(errorhandling.BadRequest), &errorhandling.RequestError{Context: " ValidatePostPut middleware json.Unmarshal", Code: errorhandling.BadRequest, Message: err.Error()})
+			c.JSON(int(errs.BadRequest), &errs.RequestError{Context: " ValidatePostPut middleware json.Unmarshal", Code: errs.BadRequest, Message: err.Error()})
 		}
+		log.Println("body is copied unmarshalled -> ", emp)
 
 	}
 }
@@ -94,17 +95,17 @@ func Find(c *gin.Context) {
 	emp, err := Repo.GetEmployeeById(id)
 	if err != nil {
 		if err != nil {
-			c.JSON(404, &errorhandling.RequestError{Context: "Find getSuper calling getEmployeeById", Code: errorhandling.NotFound, Message: err.Error()})
+			c.JSON(404, &errs.RequestError{Context: "Find getSuper calling getEmployeeById", Code: errs.NotFound, Message: err.Error()})
 			return
 		}
 	}
 	super, err := getSuper(emp.Id) //get super balance
 	if err != nil {
-		c.JSON(500, &errorhandling.RequestError{Context: "Find getSuper calling getSuper func", Code: errorhandling.Internal, Message: err.Error()})
+		c.JSON(500, &errs.RequestError{Context: "Find getSuper calling getSuper func", Code: errs.Internal, Message: err.Error()})
 		return
 	}
 	if super == nil {
-		c.JSON(500, &errorhandling.RequestError{Context: "Find getSuper : failed retrieving super", Code: errorhandling.Internal, Message: "error retrieving super"})
+		c.JSON(500, &errs.RequestError{Context: "Find getSuper : failed retrieving super", Code: errs.Internal, Message: "error retrieving super"})
 		return
 	}
 	emp.SuperBalance = *super
@@ -114,7 +115,7 @@ func Find(c *gin.Context) {
 func FindAll(c *gin.Context) {
 	emps, err := Repo.GetAllEmployees()
 	if err != nil {
-		c.JSON(int(errorhandling.BadRequest), err)
+		c.JSON(int(errs.BadRequest), err)
 		return
 	}
 	var wg sync.WaitGroup
@@ -139,7 +140,7 @@ func FinderAll(c *gin.Context) {
 	var resultC = make(chan data.SuperDetails)
 	emps, err := Repo.GetAllEmployees()
 	if err != nil {
-		c.JSON(int(errorhandling.BadRequest), err)
+		c.JSON(int(errs.BadRequest), err)
 		return
 	}
 
@@ -183,21 +184,21 @@ func worker(id string, wg *sync.WaitGroup, resultC chan data.SuperDetails) {
 }
 
 func getSuper(id string) (*float64, error) {
-	var url = "http://localhost:3000/ato/employee/?/balance"
+	var url = "http://mountebank:3000/ato/employee/?/balance"
 	url = strings.Replace(url, "?", id, 1)
 	log.Println("Sending request to this url: ", url)
 	resp, err := http.Get(url)
 	if err != nil {
-		return nil, &errorhandling.RequestError{Context: "getSuper calling ato api", Code: errorhandling.Internal, Message: err.Error()}
+		return nil, &errs.RequestError{Context: "getSuper calling ato api", Code: errs.Internal, Message: err.Error()}
 	}
 	body, err := resposeToByte(resp)
 	if err != nil {
 		log.Println("err in coverting response to byte[]:", err)
-		return nil, &errorhandling.RequestError{Context: "getsuper resposeToByte", Code: errorhandling.Internal, Message: err.Error()}
+		return nil, &errs.RequestError{Context: "getsuper resposeToByte", Code: errs.Internal, Message: err.Error()}
 	}
 	superData, err := UnmarshalSuperDetails(body)
 	if err != nil {
-		return nil, &errorhandling.RequestError{Context: "UnmarshalSuperDetails())", Code: errorhandling.Internal, Message: err.Error()}
+		return nil, &errs.RequestError{Context: "UnmarshalSuperDetails())", Code: errs.Internal, Message: err.Error()}
 	}
 	log.Println("super details ", superData)
 
@@ -208,7 +209,7 @@ func resposeToByte(resp *http.Response) ([]byte, error) {
 	body, err := ioutil.ReadAll(resp.Body) //convert reponse to byte[]
 	if err != nil {
 		log.Println("err in coverting response to byte[]:", err)
-		return []byte{}, &errorhandling.RequestError{Context: "getSuper.ioutil.ReadAll(resp.Body)", Code: errorhandling.Internal, Message: err.Error()}
+		return []byte{}, &errs.RequestError{Context: "getSuper.ioutil.ReadAll(resp.Body)", Code: errs.Internal, Message: err.Error()}
 	}
 	return body, nil
 }
@@ -217,7 +218,7 @@ func UnmarshalSuperDetails(b []byte) (data.SuperDetails, error) {
 	var superData data.SuperDetails
 	err := json.Unmarshal([]byte(b), &superData)
 	if err != nil {
-		return data.SuperDetails{}, &errorhandling.RequestError{Context: "getSuperjson.Unmarshal([]byte(body), &superData)", Code: errorhandling.Internal, Message: err.Error()}
+		return data.SuperDetails{}, &errs.RequestError{Context: "getSuperjson.Unmarshal([]byte(body), &superData)", Code: errs.Internal, Message: err.Error()}
 	}
 	return superData, nil
 }
@@ -230,12 +231,12 @@ func Create(c *gin.Context) {
 		for _, e := range err.(validator.ValidationErrors) {
 			log.Println(e)
 		}
-		c.JSON(int(errorhandling.BadRequest), &errorhandling.RequestError{Context: " CreateEmployee c.BindJson", Code: errorhandling.BadRequest, Message: err.Error()})
+		c.JSON(int(errs.BadRequest), &errs.RequestError{Context: " CreateEmployee c.BindJson", Code: errs.BadRequest, Message: err.Error()})
 		return
 	}
 	emp, err := Repo.CreateEmployee(emp)
 	if err != nil {
-		c.JSON(int(errorhandling.BadRequest), errorhandling.WrapError("mysql.CreateEmployee", errorhandling.BadRequest, err.Error()))
+		c.JSON(int(errs.BadRequest), errs.WrapError("mysql.CreateEmployee", errs.BadRequest, err.Error()))
 		return
 	}
 	c.JSON(http.StatusCreated, emp)
@@ -246,8 +247,8 @@ func Delete(c *gin.Context) {
 	id := c.Params.ByName("id")
 	err := Repo.DeleteEmployee(id)
 	if err != nil {
-		if customErr, ok := err.(*errorhandling.RequestError); ok {
-			c.JSON(int(customErr.Code), errorhandling.WrapError(customErr.Context, customErr.Code, customErr.Message))
+		if customErr, ok := err.(*errs.RequestError); ok {
+			c.JSON(int(customErr.Code), errs.WrapError(customErr.Context, customErr.Code, customErr.Message))
 			return
 		}
 		c.JSON(404, err.Error()) //generic error
@@ -260,14 +261,14 @@ func Update(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var emp data.Employee
 	if err := c.BindJSON(&emp); err != nil {
-		c.JSON(http.StatusBadRequest, errorhandling.WrapError("router.Update", errorhandling.BadRequest, err.Error()))
+		c.JSON(http.StatusBadRequest, errs.WrapError("router.Update", errs.BadRequest, err.Error()))
 		return
 	}
 	emp.Id = id
 	emp, err := Repo.UpdateEmployee(emp)
 	if err != nil {
-		if customErr, ok := err.(*errorhandling.RequestError); ok {
-			c.JSON(int(customErr.Code), errorhandling.WrapError(customErr.Context, customErr.Code, customErr.Message))
+		if customErr, ok := err.(*errs.RequestError); ok {
+			c.JSON(int(customErr.Code), errs.WrapError(customErr.Context, customErr.Code, customErr.Message))
 			return
 		}
 		c.JSON(404, err.Error()) //generic error

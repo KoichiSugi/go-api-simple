@@ -1,0 +1,107 @@
+ { "port": 3000,
+  "protocol": "http",
+  "stubs": [
+    {
+      "predicates": [
+        {
+          "equals": {"path":"/ato/employee/a/balance"}
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 404,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": {"error": "value not available"}
+          }
+        }
+      ]
+    },
+    {
+      "predicates": [
+        {
+          "equals": {"path":"/ato/employee/50196403-c115-47e2-8df9-2de76b4c6e2d/balance"}
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 200,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": { "employeeId":"50196403-c115-47e2-8df9-2de76b4c6e2d",
+                      "superBalance":1050.0}
+          }
+        },
+        {
+          "is": {
+            "statusCode": 404,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": {"error": "value not available"}
+          }
+        }
+      ]
+    },
+    {
+      "predicates": [
+        {
+          "equals": {"path":"/ato/employee/fe9abba4-1074-4ea8-a505-cb930f00508a/balance"}
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 200,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": { "employeeId":"fe9abba4-1074-4ea8-a505-cb930f00508a",
+                      "superBalance":2050.0}
+          }
+        },
+        {
+          "is": {
+            "statusCode": 404,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": {"error": "value not available"}
+          }
+        }
+      ]
+    }, 
+    {
+      "predicates": [
+        {
+          "equals": {"path":"/ato/employee/0131c945-f5d0-4c4c-a6c4-03573fb98fe0/balance"}
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 200,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": { "employeeId":"0131c945-f5d0-4c4c-a6c4-03573fb98fe0",
+                      "superBalance": 2000.0}
+          }
+        },
+        {
+          "is": {
+            "statusCode": 404,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": {"error": "value not available"}
+          }
+        }
+      ]
+    }
+  ]
+}
