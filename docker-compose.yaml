@@ -60,3 +60,4 @@ networks:
   default:
 volumes:
   mysql_data:
+
