@@ -5,3 +5,4 @@
 [GIN-debug] PUT    /employees/:id            --> git-clones/go-api-simple/routes.SetUpRouter.func4 (4 handlers)
 [GIN-debug] Environment variable PORT is undefined. Using port :8080 by default
 [GIN-debug] Listening and serving HTTP on :8080
+[Custom Log] Client IP: 192.168.208.1 - TimeStamp: [10 Nov 21 13:10 UTC] Method: GET Path: /employees/ Status Code: 200 

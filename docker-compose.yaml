@@ -41,8 +41,21 @@ services:
     # We mount the working dir into the container, handy for development
     # This is what makes the hot reloading work inside of a Docker container
     volumes:
-      - .:/app/
-
+      - .:/app/  
+  mountebank:
+    container_name: mountebank
+    image: jkris/mountebank:latest
+    build:
+      context: .
+      dockerfile: mb.Dockerfile
+    volumes:
+    - ./imposters:/imposters
+    ports:
+    - 2525:2525
+    - 3000:3000
+    command: --configfile /imposters/imposter.json --allowInjection
+    networks:
+      - default
 networks:
   default:
 volumes:

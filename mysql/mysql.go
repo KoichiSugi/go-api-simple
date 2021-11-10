@@ -1,19 +1,19 @@
 package mysql
 
 import (
-	"database/sql"
 	"fmt"
 	"git-clones/go-api-simple/data"
-	"git-clones/go-api-simple/errorhandling"
+	"git-clones/go-api-simple/errs"
 	"git-clones/go-api-simple/repository"
 	"log"
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/google/uuid"
+	"github.com/jmoiron/sqlx"
 )
 
 type MysqlRepo struct {
-	Mysqldb *sql.DB
+	Mysqldb *sqlx.DB
 }
 
 func (r *MysqlRepo) Close() {
@@ -21,7 +21,7 @@ func (r *MysqlRepo) Close() {
 }
 
 func NewMySQLRepository(dialect string, config mysql.Config, idleConn, maxConn int) (repository.Repository, error) {
-	db, err := sql.Open(dialect, "tester:secret@tcp(db:3306)/IGD?parseTime=true")
+	db, err := sqlx.Open(dialect, "tester:secret@tcp(db:3306)/IGD?parseTime=true")
 	if err != nil {
 		return nil, fmt.Errorf("failed to open sql")
 	}
@@ -35,59 +35,26 @@ func NewMySQLRepository(dialect string, config mysql.Config, idleConn, maxConn i
 	return &MysqlRepo{db}, nil // returing address of MysqlRepo type variable
 }
 
-//this will have the implementation of repository interface for CRUD functions for mysql
-func executeQuery(q string, r *MysqlRepo) (*sql.Rows, error) {
-	rows, err := r.Mysqldb.Query(q)
-	if err != nil {
-		rows.Close()
-		return nil, errorhandling.WrapError("mysql.executeQuery function", errorhandling.BadRequest, "something wrong with query")
-	}
-	return rows, nil
-}
-
 func (r *MysqlRepo) GetAllEmployees() ([]data.Employee, error) {
-	var emps []data.Employee
-	rows, err := executeQuery("SELECT * FROM employee", r)
+	emps := make([]data.Employee, 0)
+	findAllSql := "SELECT * FROM employee"
+	err := r.Mysqldb.Select(&emps, findAllSql)
 	if err != nil {
 		return nil, err
-	}
-	defer rows.Close()
-	for rows.Next() {
-		var emp data.Employee
-		if err := rows.Scan(&emp.Id, &emp.FirstName, &emp.MiddleName,
-			&emp.LastName, &emp.Gender, &emp.Salary, &emp.DOB, &emp.Email,
-			&emp.Phone, &emp.State, &emp.Postcode, &emp.AddressLine1, &emp.AddressLine2,
-			&emp.TFN, &emp.SuperBalance); err != nil {
-			return nil, err
-		}
-		emps = append(emps, emp)
 	}
 	return emps, nil
 }
 
 func (r *MysqlRepo) GetEmployeeById(id string) (data.Employee, error) {
-	emp, err := getEmployeeById(id, r)
+	var e data.Employee
+	getEmpByIdSql := "SELECT * FROM employee WHERE id = ?"
+	err := r.Mysqldb.Get(&e, getEmpByIdSql, id)
 	if err != nil { //if not found
 		return data.Employee{}, err
 	}
-	return emp, nil //if found
+	return e, nil //if found
 }
 
-func getEmployeeById(id string, r *MysqlRepo) (data.Employee, error) {
-	var emp data.Employee
-	q := "SELECT * FROM employee WHERE id = ?"
-	row := r.Mysqldb.QueryRow(q, id)
-	if err := row.Scan(&emp.Id, &emp.FirstName, &emp.MiddleName,
-		&emp.LastName, &emp.Gender, &emp.Salary, &emp.DOB, &emp.Email,
-		&emp.Phone, &emp.State, &emp.Postcode, &emp.AddressLine1, &emp.AddressLine2,
-		&emp.TFN, &emp.SuperBalance); err != nil {
-		if err == sql.ErrNoRows {
-			return data.Employee{}, err
-		}
-		return data.Employee{}, err
-	}
-	return emp, nil
-}
 func (r *MysqlRepo) CreateEmployee(emp data.Employee) (data.Employee, error) {
 
 	emp.Id = uuid.New().String()       // generate a new random UUID and assign
@@ -100,14 +67,14 @@ func (r *MysqlRepo) CreateEmployee(emp data.Employee) (data.Employee, error) {
 }
 
 func (r *MysqlRepo) DeleteEmployee(id string) error {
-	_, err := getEmployeeById(id, r) //check if id exists
-	if err != nil {                  //if not exists return
+	_, err := r.GetEmployeeById(id) //check if id exists
+	if err != nil {                 //if not exists return
 		return fmt.Errorf("sql: no rows in result set")
 	}
 	query := "DELETE FROM employee WHERE id = ?" //delete emp
 	_, err = r.Mysqldb.Exec(query, id)
 	if err != nil {
-		return &errorhandling.RequestError{Context: "mysql.GetAllEmployeeById delete query execution", Code: errorhandling.Internal, Message: err.Error()}
+		return &errs.RequestError{Context: "mysql.GetAllEmployeeById delete query execution", Code: errs.Internal, Message: err.Error()}
 	}
 	return nil //if deletion successful
 }
@@ -116,7 +83,7 @@ func (r *MysqlRepo) UpdateEmployee(emp data.Employee) (data.Employee, error) {
 	var newEmp data.Employee
 	//if param is empty, do not update
 	q := "UPDATE employee SET first_name = ?,middle_name = ?,last_name = ? ,gender = ?,salary = ?,dob = ?,email = ?, phone = ?, state = ? ,postcode = ?, address_line1 = ?,address_line2 = ?, tfn = ?, super_balance = ? WHERE id = ?"
-	originalEmp, err := getEmployeeById(emp.Id, r)
+	originalEmp, err := r.GetEmployeeById(emp.Id)
 	if err != nil { //if not exists return
 		return data.Employee{}, fmt.Errorf("sql: no rows in result set")
 	}
@@ -128,9 +95,9 @@ func (r *MysqlRepo) UpdateEmployee(emp data.Employee) (data.Employee, error) {
 		emp.Phone, emp.State, emp.Postcode, emp.AddressLine1, emp.AddressLine2,
 		emp.TFN, emp.SuperBalance, emp.Id)
 	if err != nil {
-		return data.Employee{}, &errorhandling.RequestError{Context: "mysql.go.UpdateEmployee r.SqlDb.Exec update", Code: errorhandling.Internal, Message: err.Error()}
+		return data.Employee{}, &errs.RequestError{Context: "mysql.go.UpdateEmployee r.SqlDb.Exec update", Code: errs.Internal, Message: err.Error()}
 	}
-	newEmp, _ = getEmployeeById(emp.Id, r)
+	newEmp, _ = r.GetEmployeeById(emp.Id)
 	log.Println("Updated emp: ", newEmp)
 	return newEmp, nil
 }
